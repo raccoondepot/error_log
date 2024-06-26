@@ -9,9 +9,9 @@ use TYPO3\CMS\Core\Configuration\ConfigurationManager;
 class ConfigurationService
 {
     private const HANDLERS = [
-        'SYS/errorHandler' => 'error_log\\Classes\\Handler\\ErrorHandler',
-        'SYS/debugExceptionHandler' => 'error_log\\Classes\\Handler\\DebugExceptionHandler',
-        'SYS/productionExceptionHandler' => 'error_log\\Classes\\Handler\\ProductionExceptionHandler',
+        'SYS/errorHandler' => 'RD\\ErrorLog\\Classes\\Handler\\ErrorHandler',
+        'SYS/debugExceptionHandler' => 'RD\\ErrorLog\\Handler\\DebugExceptionHandler',
+        'SYS/productionExceptionHandler' => 'RD\\ErrorLog\\Handler\\ProductionExceptionHandler',
     ];
 
     private ConfigurationManager $configurationManager;
