@@ -25,13 +25,24 @@ class ReportService
 
     public function run(): void
     {
-        if (date('G') == 0) {
-            $this->dispatchReport(new Frequency(Frequency::DAILY));
-            if (date('w') == 1) {
-                $this->dispatchReport(new Frequency(Frequency::WEEKLY));
-            }
-            if (date('d') == 1) {
-                $this->dispatchReport(new Frequency(Frequency::MONTHLY));
+        $currentMinute = date('i');
+        $currentHour = date('G');
+        $currentDayOfWeek = date('w');
+        $currentDayOfMonth = date('d');
+
+        if ($currentMinute == 0) {
+            $this->dispatchReport(Frequency::HOURLY);
+
+            if ($currentHour == 0) {
+                $this->dispatchReport(Frequency::DAILY);
+
+                if ($currentDayOfWeek == 1) {
+                    $this->dispatchReport(Frequency::WEEKLY);
+                }
+
+                if ($currentDayOfMonth == 1) {
+                    $this->dispatchReport(Frequency::MONTHLY);
+                }
             }
         }
         $this->notifyAboutNotDispatchedErrors();
