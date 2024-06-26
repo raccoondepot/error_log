@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2024-04-21UTC12:00:000">
+        <header>
+            <authorName>RD Team</authorName>
+            <authorEmail>office@raccoondepot.com</authorEmail>
+        </header>
+        <body>
+            <trans-unit id="errors_log">
+                <source>Errors log</source>
+            </trans-unit>
+            <trans-unit id="settings">
+                <source>Settings</source>
+            </trans-unit>
+            <trans-unit id="message">
+                <source>Message</source>
+            </trans-unit>
+            <trans-unit id="errors.filter.submit">
+                <source>Submit</source>
+            </trans-unit>
+            <trans-unit id="errors.filter.reset">
+                <source>Reset</source>
+            </trans-unit>
+            <trans-unit id="errors.filter.search">
+                <source>Search</source>
+            </trans-unit>
+            <trans-unit id="errors.filter.search_errors">
+                <source>Search errors...</source>
+            </trans-unit>
+            <trans-unit id="errors.filter.max_results">
+                <source>Max results</source>
+            </trans-unit>
+            <trans-unit id="errors.filter.root_page">
+                <source>Root page</source>
+            </trans-unit>
+            <trans-unit id="errors.filter.from">
+                <source>From</source>
+            </trans-unit>
+            <trans-unit id="errors.filter.to">
+                <source>To</source>
+            </trans-unit>
+            <trans-unit id="errors.list.message">
+                <source>Message</source>
+            </trans-unit>
+            <trans-unit id="errors.list.code">
+                <source>Code</source>
+            </trans-unit>
+            <trans-unit id="errors.list.count">
+                <source>Count</source>
+            </trans-unit>
+            <trans-unit id="errors.list.date">
+                <source>Dates</source>
+            </trans-unit>
+            <trans-unit id="errors.list.actions">
+                <source>Actions</source>
+            </trans-unit>
+            <trans-unit id="errors.list.no_errors_found">
+                <source>No errors found</source>
+            </trans-unit>
+
+            <trans-unit id="errors.view.error_log">
+                <source>Error log</source>
+            </trans-unit>
+            <trans-unit id="errors.view.message">
+                <source>Message:</source>
+            </trans-unit>
+            <trans-unit id="errors.view.workspace">
+                <source>Workspace:</source>
+            </trans-unit>
+            <trans-unit id="errors.view.user">
+                <source>User:</source>
+            </trans-unit>
+            <trans-unit id="errors.view.IP">
+                <source>IP:</source>
+            </trans-unit>
+            <trans-unit id="errors.view.code">
+                <source>Code:</source>
+            </trans-unit>
+            <trans-unit id="errors.view.file_line">
+                <source>File (line):</source>
+            </trans-unit>
+            <trans-unit id="errors.view.error">
+                <source>Error:</source>
+            </trans-unit>
+            <trans-unit id="errors.view.server_name">
+                <source>Server name:</source>
+            </trans-unit>
+            <trans-unit id="errors.view.typo3_reference">
+                <source>TYPO3 reference exceptions</source>
+            </trans-unit>
+            <trans-unit id="errors.view.entry_point">
+                <source>Entry point:</source>
+            </trans-unit>
+            <trans-unit id="errors.view.browser_info">
+                <source>Browser info:</source>
+            </trans-unit>
+            <trans-unit id="errors.view.page_uid">
+                <source>Page uid:</source>
+            </trans-unit>
+            <trans-unit id="errors.view.root_page_uid">
+                <source>Root page uid:</source>
+            </trans-unit>
+            <trans-unit id="errors.labels.delete">
+                <source>Delete</source>
+            </trans-unit>
+            <trans-unit id="errors.labels.goBack">
+                <source>Go back</source>
+            </trans-unit>
+            <trans-unit id="settings.title">
+                <source>Error log settings</source>
+            </trans-unit>
+            <trans-unit id="settings.settings">
+                <source>Settings</source>
+            </trans-unit>
+            <trans-unit id="settings.users">
+                <source>Users</source>
+            </trans-unit>
+            <trans-unit id="settings.user">
+                <source>User</source>
+            </trans-unit>
+            <trans-unit id="settings.email">
+                <source>Email</source>
+            </trans-unit>
+            <trans-unit id="settings.noification_errors">
+                <source>Error notifications</source>
+            </trans-unit>
+            <trans-unit id="settings.noification_reports">
+                <source>Report notifications</source>
+            </trans-unit>
+            <trans-unit id="settings.general">
+                <source>General</source>
+            </trans-unit>
+            <trans-unit id="settings.general_enable">
+                <source>Enable Error log feature</source>
+            </trans-unit>
+            <trans-unit id="settings.general_expire_days">
+                <source>Number of days before error expires (0 - never expire)</source>
+            </trans-unit>
+            <trans-unit id="settings.slack">
+                <source>Slack</source>
+            </trans-unit>
+            <trans-unit id="settings.slack_enable">
+                <source>Enable Slack notifications</source>
+            </trans-unit>
+            <trans-unit id="settings.slack_send_test">
+                <source>Send test message</source>
+            </trans-unit>
+            <trans-unit id="settings.slack_test_message">
+                <source>This is test message</source>
+            </trans-unit>
+            <trans-unit id="settings.slack_auth_token">
+                <source>Slack authorization token</source>
+            </trans-unit>
+            <trans-unit id="settings.slack_channel_id">
+                <source>Slack channel ID</source>
+            </trans-unit>
+            <trans-unit id="settings.slack_report_type">
+                <source>Error reports sending</source>
+            </trans-unit>
+            <trans-unit id="settings.slack_occurrence_type">
+                <source>Error occurrence notification sending</source>
+            </trans-unit>
+            <trans-unit id="settings.openai">
+                <source>OpenAI</source>
+            </trans-unit>
+            <trans-unit id="settings.openai_enable">
+                <source>Enable AI assistance (OpenAI)</source>
+            </trans-unit>
+            <trans-unit id="settings.openai_auth_token">
+                <source>OpenAI authorization token</source>
+            </trans-unit>
+            <trans-unit id="settings.openaiPrePrompt">
+                <source>OpenAI system pre-prompt</source>
+            </trans-unit>
+            <trans-unit id="settings.openai_model">
+                <source>OpenAI GPT model</source>
+            </trans-unit>
+            <trans-unit id="settings.model.openai35t">
+                <source>gpt-3.5-turbo (cheapest)</source>
+            </trans-unit>
+            <trans-unit id="settings.model.openai4o">
+                <source>gpt-4o</source>
+            </trans-unit>
+            <trans-unit id="settings.model.openai4t">
+                <source>gpt-4-turbo (smartest)</source>
+            </trans-unit>
+            <trans-unit id="settings.test_ai">
+                 <source>Test AI</source>
+            </trans-unit>
+            <trans-unit id="settings.errorlog_option_report_0">
+                <source>None</source>
+            </trans-unit>
+            <trans-unit id="settings.errorlog_option_report_1">
+                <source>Hourly</source>
+            </trans-unit>
+            <trans-unit id="settings.errorlog_option_report_2">
+                <source>Daily</source>
+            </trans-unit>
+            <trans-unit id="settings.errorlog_option_report_3">
+                <source>Weekly</source>
+            </trans-unit>
+            <trans-unit id="settings.errorlog_option_report_4">
+                <source>Monthly</source>
+            </trans-unit>
+            <trans-unit id="settings.errorlog_option_occurence_0">
+                <source>None</source>
+            </trans-unit>
+            <trans-unit id="settings.errorlog_option_occurence_1">
+                <source>First Occurance only</source>
+            </trans-unit>
+            <trans-unit id="settings.errorlog_option_occurence_2">
+                <source>Each occurance</source>
+            </trans-unit>
+
+            <trans-unit id="settings.save_settings">
+                <source>Save settings</source>
+            </trans-unit>
+
+            <trans-unit id="email.subject_error_occurred">
+                <source>Error occurred</source>
+            </trans-unit>
+            <trans-unit id="email.subject_report">
+                <source>Errors report</source>
+            </trans-unit>
+
+            <trans-unit id="ai.preprompt_text">
+                <source>You are a TYPO3 consultant. Your specialization is fixing the errors in TYPO3 installations, v.11 and above. You are giving your responses in proper markdown format.</source>
+            </trans-unit>
+            <trans-unit id="ai.intro_text">
+                <source>Please introduce yourself and explain how can you be helpful in a few short sentences.</source>
+            </trans-unit>
+            <trans-unit id="messages.errors_deleted">
+                <source>Errors deleted</source>
+            </trans-unit>
+            <trans-unit id="messages.log_not_found">
+                <source>Log not found</source>
+            </trans-unit>
+            <trans-unit id="messages.settings_saved">
+                <source>Error log settings were updated</source>
+            </trans-unit>
+            <trans-unit id="messages.handlers_not_set_extension_will_not_work_correctly">
+                <source>The handlers are not set. The extension will not function correctly.</source>
+            </trans-unit>
+
+            <trans-unit id="email.report.footer">
+                <source>This message is generated by error_log extension.</source>
+            </trans-unit>
+            <trans-unit id="email.report.hello">
+                <source>Hello, </source>
+            </trans-unit>
+            <trans-unit id="email.report.error_occurred_times">
+                <source>Errors occurred %d times.</source>
+            </trans-unit>
+            <trans-unit id="email.report.table.message">
+                 <source>Message</source>
+            </trans-unit>
+            <trans-unit id="email.report.table.file_line_code">
+                 <source>File:line (Code)</source>
+            </trans-unit>
+            <trans-unit id="email.report.email.report.errors_report_title">
+                 <source>Errors Report</source>
+            </trans-unit>
+            <trans-unit id="email.error.title">
+                 <source>Error occurred</source>
+            </trans-unit>
+            <trans-unit id="email.error.hello">
+                 <source>Hello, </source>
+            </trans-unit>
+            <trans-unit id="email.error.the_error_occurred">
+                 <source>The error occurred on the website:</source>
+            </trans-unit>
+            <trans-unit id="email.error.file">
+                 <source>File:</source>
+            </trans-unit>
+            <trans-unit id="email.error.server_name">
+                 <source>Server name:</source>
+            </trans-unit>
+            <trans-unit id="email.error.entry_point">
+                 <source>Entry point:</source>
+            </trans-unit>
+            <trans-unit id="email.error.browser_info">
+                 <source>Browser info:</source>
+            </trans-unit>
+            <trans-unit id="email.error.page_uid">
+                 <source>Page uid:</source>
+            </trans-unit>
+            <trans-unit id="email.error.root_page_uid">
+                 <source>Root page uid:</source>
+            </trans-unit>
+            <trans-unit id="email.error.code">
+                 <source>Code:</source>
+            </trans-unit>
+            <trans-unit id="email.error.date">
+                 <source>Date:</source>
+            </trans-unit>
+            <trans-unit id="email.error.see_more">
+                 <source>See More</source>
+            </trans-unit>
+
+            <trans-unit id="errors.tab_trace">
+                 <source>Stack trace</source>
+            </trans-unit>
+            <trans-unit id="errors.tab_ai">
+                 <source>AI Assistant</source>
+            </trans-unit>
+            <trans-unit id="errors.ai_generate">
+                 <source>Generate suggestion</source>
+            </trans-unit>
+            <trans-unit id="errors.ai_generate_again">
+                 <source>Generate again</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

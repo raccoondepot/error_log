@@ -1,0 +1,63 @@
+<html
+        xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+        xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+        data-namespace-typo3-fluid="true">
+
+<div class="table-fit">
+    <table class="table table-hover">
+        <tbody>
+        <th>
+        <td>
+            <f:translate key="settings.user"/>
+        </td>
+        <td>
+            <f:translate key="settings.email"/>
+        </td>
+        <td>
+            <f:translate key="settings.noification_errors"/>
+        </td>
+        <td>
+            <f:translate key="settings.noification_reports"/>
+        </td>
+        </th>
+        <f:for each="{users}" as="user">
+            <tr>
+                <td>
+                    <a href="#" class="t3js-contextmenutrigger" data-table="be_users" data-uid="{user.uid}"
+                       title="id={user.uid}">
+                        <be:avatar backendUser="{user.uid}" showIcon="TRUE"/>
+                    </a>
+                </td>
+                <td class="col-title">
+                    <be:link.editRecord table="be_users" uid="{user.uid}" title="edit">
+                        <b>{user.username}</b>
+                    </be:link.editRecord>
+                    <br/>
+                    <f:if condition="{user.realName}">
+                        <be:link.editRecord table="be_users" uid="{user.uid}" title="edit">
+                            {user.realName}
+                        </be:link.editRecord>
+                    </f:if>
+                </td>
+                <td>
+                    <be:link.editRecord table="be_users" uid="{user.uid}" title="edit">
+                        {user.email}
+                    </be:link.editRecord>
+                </td>
+                <td>
+                    <be:link.editRecord table="be_users" uid="{user.uid}" title="edit">
+                        <f:translate key="settings.errorlog_option_occurence_{user.errorlogOccurrenceType}"/>
+                    </be:link.editRecord>
+                </td>
+                <td>
+                    <be:link.editRecord table="be_users" uid="{user.uid}" title="edit">
+                        <f:translate key="settings.errorlog_option_report_{user.errorlogReportType}"/>
+                    </be:link.editRecord>
+                </td>
+            </tr>
+        </f:for>
+        </tbody>
+    </table>
+</div>
+
+</html>

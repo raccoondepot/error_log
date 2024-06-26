@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2024-04-21UTC12:00:000">
+        <header>
+            <authorName>RD Team</authorName>
+            <authorEmail>office@raccoondepot.com</authorEmail>
+        </header>
+        <body>
+            <trans-unit id="tx_errorlog_domain_model_error">
+                <source>Errors log</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_tab">
+                <source>Error Notifications</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_slack">
+                <source>Slack DM Username</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_enable_email">
+                <source>Enable email notifications</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_enable_slack">
+                <source>Enable slack notifications</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_report_type">
+                <source>Error reports sending</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_occurrence_type">
+                <source>Error occurrence notification sending</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_option_report_0">
+                <source>None</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_option_report_1">
+                <source>Hourly</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_option_report_2">
+                <source>Daily</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_option_report_3">
+                <source>Weekly</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_option_report_4">
+                <source>Monthly</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_option_occurence_0">
+                <source>None</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_option_occurence_1">
+                <source>First Occurrence only</source>
+            </trans-unit>
+            <trans-unit id="be_users.errorlog_option_occurence_2">
+                <source>Each occurrence</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

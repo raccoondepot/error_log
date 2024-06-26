@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{f:translate(key: 'email.report.errors_report_title', extensionName: 'error_log')}</title>
+</head>
+<body style="margin: 0; font-family: Arial, Helvetica, sans-serif; background: #F7F7F7;">
+<div style="width:100%; background: #EE4F4F; height: 250px;"></div>
+<f:variable name="errorCount" value="{errors -> f:count()}"/>
+<table style="margin-top: -220px; " width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="center" style="padding: 20px">
+            <table class="content" width="600" border="0" cellspacing="0" cellpadding="0"
+                   style="border-collapse: collapse; background: #ffffff;">
+                <tr>
+                    <td class="header"
+                        style="background-color: #fff; padding: 30px; text-align: center; color: #000; font-size: 42px; font-weight: 500;">
+                        {f:translate(key: 'email.report.hello', extensionName: 'error_log')} {name}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="header"
+                        style="background-color: #fff; padding: 20px; text-align: center; color: #000; font-size: 16px; font-weight: 400;">
+                        {f:translate(key: 'email.report.error_occurred_times', arguments: '{0: errorCount}',
+                        extensionName: 'error_log')}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="body" style="padding: 20px 40px; text-align: left; font-size: 16px; line-height: 1.6;">
+                        <table width="450" style="border-collapse: collapse;">
+                            <thead>
+                            <th style="border: 1px solid black; padding: 15px; text-align: left;">{f:translate(key:
+                                'email.report.table.message', extensionName: 'error_log')}
+                            </th>
+                            <th style="border: 1px solid black; padding: 15px; text-align: left;">{f:translate(key:
+                                'email.report.table.file_line_code', extensionName: 'error_log')}
+                            </th>
+                            </thead>
+                            <tbody>
+                            <f:for each="{errors}" as="error">
+                                <tr>
+                                    <td style="border: 1px solid black; padding: 15px; text-align: left;">
+                                        {error.message}
+                                    </td>
+                                    <td style="border: 1px solid black; padding: 15px; text-align: left;">
+                                        {error.file}{error.line}: ({error.code})
+                                    </td>
+                                </tr>
+                            </f:for>
+                            </tbody>
+                        </table>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="body" style="padding: 20px; text-align: left; font-size: 16px; line-height: 1.6;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="footer"
+                        style="background-color: #1d1d1d; padding: 40px; text-align: center; color: white; font-size: 14px;">
+
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<style>
+    @media screen and (max-width: 600px) {
+        .content {
+            width: 100% !important;
+        }
+
+        div {
+            width: 100% !important;
+        }
+    }
+</style>
+</body>
+</html>

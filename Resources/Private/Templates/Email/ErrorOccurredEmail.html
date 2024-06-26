@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:f="http://www.w3.org/1999/XSL/Transform">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{f:translate(key: 'email.error.title', extensionName: 'error_log')}</title>
+</head>
+<body style="margin: 0; font-family: Arial, Helvetica, sans-serif; background: #F7F7F7;">
+<div style="width:100%; background: #EE4F4F; height: 250px;"></div>
+<table style="margin-top: -220px; " width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="center" style="padding: 20px">
+            <table class="content" width="600" border="0" cellspacing="0" cellpadding="0"
+                   style="border-collapse: collapse; background: #ffffff;">
+                <tr>
+                    <td class="header"
+                        style="background-color: #fff; padding: 40px; text-align: center; color: #000; font-size: 42px; font-weight: 700;">
+                        {f:translate(key: 'email.error.hello', extensionName: 'error_log')} {name}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="body" style="padding: 20px 40px; text-align: left; font-size: 16px; line-height: 1.6;">
+                        <p> {f:translate(key: 'email.error.the_error_occurred', extensionName: 'error_log')}</p>
+                        <div><strong>{f:translate(key: 'email.error.file', extensionName: 'error_log')}</strong>
+                            {errors.file}:{errors.line}
+                        </div>
+                        <div><strong>{f:translate(key: 'email.error.server_name', extensionName: 'error_log')}</strong>
+                            {errors.serverName}
+                        </div>
+                        <div><strong>{f:translate(key: 'email.error.entry_point', extensionName: 'error_log')}</strong>
+                            {errors.requestUri}
+                        </div>
+                        <div><strong>{f:translate(key: 'email.error.browser_info', extensionName: 'error_log')}</strong>
+                            {errors.browserInfo}
+                        </div>
+                        <div><strong>{f:translate(key: 'email.error.page_uid', extensionName: 'error_log')}</strong>
+                            {errors.pageUid}
+                        </div>
+                        <div><strong>{f:translate(key: 'email.error.root_page_uid', extensionName:
+                            'error_log')}</strong> {errors.rootPageUid}
+                        </div>
+                        <div><strong>Error message:</strong> {errors.message}</div>
+                        <f:if condition="{error.code} != 0">
+                            <div><strong>{f:translate(key: 'email.error.code', extensionName: 'error_log')}</strong>
+                                {errors.code}
+                            </div>
+                        </f:if>
+                        <div><strong>{f:translate(key: 'email.error.date', extensionName: 'error_log')}</strong>
+                            <f:format.date format="Y-m-d H:i:s"> {errors.crdate}</f:format.date>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 20px 40px; text-align: left; font-size: 16px; line-height: 1.6;">
+                        <div>
+                            <f:be.link 
+                                route="system_ErrorLogTxErrorlog" 
+                                referenceType="share" 
+                                parameters="{'tx_errorlog_system_errorlogtxerrorlog[uid]': errors.uid, 'tx_errorlog_system_errorlogtxerrorlog[action]': 'view'}"
+                            >
+                                {f:translate(key: 'email.error.see_more', extensionName: 'error_log')}
+                            </f:be.link>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="footer"
+                        style="background-color: #1d1d1d; padding: 40px; text-align: center; color: white; font-size: 14px;">
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<style>
+    @media screen and (max-width: 600px) {
+        .content {
+            width: 100% !important;
+        }
+
+        div {
+            width: 100% !important;
+        }
+    }
+</style>
+</body>
+</html>

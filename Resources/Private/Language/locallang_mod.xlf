@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2024-04-21UTC12:00:000">
+    <header>
+        <authorName>RD Team</authorName>
+        <authorEmail>office@raccoondepot.com</authorEmail>
+    </header>
+    <body>
+        <trans-unit id="mlang_tabs_tab">
+            <source>Errors log</source>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>

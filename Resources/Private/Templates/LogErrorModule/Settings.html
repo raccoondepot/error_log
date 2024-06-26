@@ -1,0 +1,139 @@
+<html
+        xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+        data-namespace-typo3-fluid="true">
+<f:layout name="Default"/>
+<f:section name="Content">
+    <f:flashMessages/>
+    <h1>
+        <f:translate key="settings.title"/>
+    </h1>
+    <f:if condition="{message}">
+        <div class="alert alert-danger">
+            {message}
+        </div>
+    </f:if>
+    <ul class="nav nav-tabs t3js-tabs" role="tablist" id="tabs-DTM-errorlog-settings" data-store-last-tab="1">
+        <li role="presentation" class="t3js-tabmenu-item nav-item">
+            <a href="#DTM-errorlog-settings-1" class="nav-link active" title="" aria-controls="DTM-errorlog-settings-1"
+               role="tab" data-bs-toggle="tab" aria-selected="false">
+                <f:translate key="settings.settings"/>
+            </a>
+        </li>
+        <li role="presentation" class="t3js-tabmenu-item nav-item">
+            <a href="#DTM-errorlog-settings-2" class="nav-link" title="" aria-controls="DTM-errorlog-settings-2"
+               role="tab" data-bs-toggle="tab" aria-selected="true">
+                <f:translate key="settings.users"/>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active show" id="DTM-errorlog-settings-1">
+            <div>
+                <f:form action="saveSettings" name="settings" object="{settings}">
+                    <fieldset class="form-section">
+                        <legend>
+                            <f:translate key="settings.general"/>
+                        </legend>
+                        <div class="pb-2">
+                            <f:form.checkbox class="form-check-input" property="generalEnable" value="1"/>
+                            <label>
+                                <f:translate key="settings.general_enable"/>
+                            </label>
+                        </div>
+                        <div class="pb-2">
+                            <label for="generalExpireDays" class="pb-2">
+                                <f:translate key="settings.general_expire_days"/>
+                            </label>
+                            <f:form.textfield name="generalExpireDays" class="form-control" property="generalExpireDays"
+                                              type="number"
+                                              additionalAttributes="{pattern: '[0-9]{4}'}"/>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-section">
+                        <legend>
+                            <f:translate key="settings.slack"/>
+                        </legend>
+                        <div class="pb-2">
+                            <f:form.checkbox class="form-check-input" property="slackEnable" value="1"/>
+                            <label>
+                                <f:translate key="settings.slack_enable"/>
+                            </label>
+                        </div>
+                        <label for="slackAuthToken" class="pb-2">
+                            <f:translate key="settings.slack_auth_token"/>
+                        </label>
+                        <div class="pb-2">
+                            <f:form.textfield name="slackAuthToken" class="form-control" property="slackAuthToken"/>
+                        </div>
+                        <label for="slackChannelId" class="pb-2">
+                            <f:translate key="settings.slack_channel_id"/>
+                        </label>
+                        <div class="pb-2">
+                            <f:form.textfield name="slackChannelId" class="form-control" property="slackChannelId"/>
+                        </div>
+                        <div class="pb-2">
+                            <button type="button" data-message="{f:translate(key: 'settings.slack_test_message')}" id="slack-test-button"><f:translate key="settings.slack_send_test"/></button>
+                            <div class="pt-2" id="slack-test-response"></div>
+                        </div>
+                        <label for="slackReportType" class="pb-2">
+                            <f:translate key="settings.slack_report_type"/>
+                        </label>
+                        <div class="pb-2">
+                            <f:form.select name="slackReportType" class="form-select form-control-adapt"
+                                           property="slackReportType" options="{errorReportsOptions}"/>
+                        </div>
+                        <label for="slackOccurrenceType" class="pb-2">
+                            <f:translate key="settings.slack_occurrence_type"/>
+                        </label>
+                        <div class="pb-2">
+                            <f:form.select name="slackOccurrenceType" class="form-select form-control-adapt"
+                                           property="slackOccurrenceType" options="{occurrenceOptions}"/>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-section">
+                        <legend>
+                            <f:translate key="settings.openai"/>
+                        </legend>
+                        <div class="pb-2">
+                            <f:form.checkbox class="form-check-input" property="openaiEnable" value="1"/>
+                            <label>
+                                <f:translate key="settings.openai_enable"/>
+                            </label>
+                        </div>
+                        <label for="openaiAuthToken" class="pb-2">
+                            <f:translate key="settings.openai_auth_token"/>
+                        </label>
+                        <div class="pb-2">
+                            <f:form.textfield name="openaiAuthToken" class="form-control" property="openaiAuthToken"/>
+                        </div>
+                        <label for="prePrompt" class="pb-2">
+                            <f:translate key="settings.openaiPrePrompt"/>
+                        </label>
+                        <div class="pb-2">
+                            <f:form.textarea name="prePrompt" class="form-control" property="prePrompt"/>
+                        </div>
+                        <label for="openaiModel" class="pb-2">
+                            <f:translate key="settings.openai_model"/>
+                        </label>
+                        <div class="pb-2">
+                            <f:form.select name="openaiModel" class="form-select form-control-adapt"
+                                           property="openaiModel" options="{modelOptions}" />
+                        </div>
+                        <div class="pb-2">
+                            <button type="button" data-message="{f:translate(key: 'ai.intro_text')}" id="ai-button"><f:translate key="settings.test_ai"/></button>
+                            <div class="pt-2" id="ai-response"></div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-section pb-2 pt-2">
+                        <f:form.submit class="btn btn-primary" value="{f:translate(key: 'settings.save_settings')}"/>
+                    </fieldset>
+                </f:form>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="DTM-errorlog-settings-2">
+            <f:render partial="Users" arguments="{users: users}" />
+        </div>
+    </div>
+    <div class="divider"></div>
+</f:section>
+</html>

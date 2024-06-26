@@ -1,0 +1,25 @@
+{
+    "name": "rd/error-log",
+    "type": "typo3-cms-extension",
+    "description": "Error log extension for TYPO3 CMS",
+    "homepage": "https://github.com/raccoondepot/error_log/",
+    "license": ["GPL-2.0-or-later"],
+    "keywords": ["TYPO3 CMS"],
+    "require": {
+        "typo3/cms-core": "^11.5",
+        "symfony/http-client": "^5.4",
+        "typo3/cms-scheduler": "^11.5",
+        "slack-php/slack-block-kit": "*",
+        "erusev/parsedown": "^1.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "RD\\ErrorLog\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "error_log"
+        }
+    }
+}

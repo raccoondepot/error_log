@@ -1,0 +1,45 @@
+pre {
+  margin-bottom: 1em;
+}
+.hljs {
+  color: #a9b7c6;
+  background: #3c4045;
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  -webkit-text-size-adjust: none;
+}
+.hljs-number {
+  color: #719fc1;
+}
+.hljs-keyword,
+.hljs-deletion {
+  color: #ca732c;
+}
+.hljs-javadoc {
+  color: #5a894e;
+}
+.hljs-comment {
+  color: #9b9898;
+}
+.hljs-annotation {
+  color: #bdb824;
+}
+.hljs-string,
+.hljs-addition {
+  color: #72975d;
+}
+.hljs-function .hljs-title,
+.hljs-change {
+  color: #fcc264;
+}
+.hljs-tag .hljs-title,
+.hljs-doctype {
+  color: #fcc264;
+}
+.hljs-tag .hljs-attribute {
+  color: #cdcbcb;
+}
+.hljs-tag .hljs-value {
+  color: #adce60;
+}

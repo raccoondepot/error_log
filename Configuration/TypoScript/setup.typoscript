@@ -1,0 +1,9 @@
+module.tx_errorlog {
+    view {
+        layoutRootPaths.10 = EXT:error_log/Resources/Private/Layouts/
+        templateRootPaths.10 = EXT:error_log/Resources/Private/Templates/
+        partialRootPaths.10 = EXT:error_log/Resources/Private/Partials/
+    }
+}
+
+config.contentObjectExceptionHandler = RD\ErrorLog\Handler\ContentObjectExceptionHandler

@@ -1,0 +1,118 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<div class="row">
+    <div class="panel-group panel-group-flat panel-group-scanner-extensions">
+        <f:for each="{errors}" as="error" iteration="iterator">
+            <div class="panel panel-default panel-flat t3js-extensionScanner-extension t3js-extensionScanner-extension-{extension}"
+                data-extension="{extension}">
+                <div class="panel-heading">
+                    <h2 class="panel-title">
+                        <a href="#error-{iterator.index}" class="collapsed" data-bs-toggle="collapse">
+                            <span class="caret"></span>
+                            <strong>{error.message} - {error.crdate -> f:format.date(format: 'Y-m-d
+                                H:i:s')}</strong>
+                        </a>
+                    </h2>
+                </div>
+                <div class="panel-collapse collapse" id="error-{iterator.index}">
+                    <div class="panel-body hide t3js-extensionScanner-extension-body"></div>
+                    <div class="panel-footer">
+                        <table class="table table-striped table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td><strong>
+                                            <f:translate key="errors.view.server_name" />
+                                        </strong></td>
+                                    <td>{error.server_name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>
+                                            <f:translate key="errors.view.entry_point" />
+                                        </strong></td>
+                                    <td>{error.request_uri}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>
+                                            <f:translate key="errors.view.browser_info" />
+                                        </strong></td>
+                                    <td>{error.browser_info}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>
+                                            <f:translate key="errors.view.page_uid" />
+                                        </strong></td>
+                                    <td>{error.page_uid}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>
+                                            <f:translate key="errors.view.root_page_uid" />
+                                        </strong></td>
+                                    <td>{error.root_page_uid}</td>
+                                </tr>
+                                <f:if condition="{error.workspace}">
+                                    <tr>
+                                        <td><strong>
+                                                <f:translate key="errors.view.workspace" />
+                                            </strong></td>
+                                        <td>{error.workspace}</td>
+                                    </tr>
+                                </f:if>
+                                <f:if condition="{error.user}">
+                                    <tr>
+                                        <td><strong>
+                                                <f:translate key="errors.view.user" />
+                                            </strong></td>
+                                        <td>{error.user}
+                                            <f:if condition="{error.userId}">
+                                                ({error.userId})
+                                            </f:if>
+                                        </td>
+                                    </tr>
+                                </f:if>
+                                <f:if condition="{error.IP}">
+                                    <tr>
+                                        <td><strong>
+                                                <f:translate key="errors.view.IP" />
+                                            </strong></td>
+                                        <td>{error.IP}</td>
+                                    </tr>
+                                </f:if>
+                            </tbody>
+                        </table>
+
+                        <f:variable name="decodedJson" value="{rd:jsonDecode(json: error.trace)}" />
+                        <div class="block-container">
+                            <div class="error-list">
+                                <f:for each="{decodedJson}" as="trace" iteration="iteration">
+                                    <div class="error-list__item">
+                                        <img src="{f:uri.resource(path: 'EXT:error_log/Resources/Public/Icons/item-icon.svg')}"
+                                            alt="icon" class="error-list__item__img" />
+                                        <div class="error-list__item__text">
+                                            <div class="error-list__item__text__heading" style="max-width: 650px;">
+                                                <div class="error-list__item__text__heading">
+                                                    {trace.class}->{trace.function}:{trace.line}
+                                                </div>
+                                                <p class="error-list__item__text__paragraph">{trace.file}</p>
+                                            </div>
+                                            <div class="error-list__item__text__additional">
+                                                {trace.args->f:format.json()}
+                                            </div>
+                                        </div>
+                                        <img src="{f:uri.resource(path: 'EXT:error_log/Resources/Public/Icons/copy-icon.svg')}"
+                                            alt="Copy record" class="error-list__item__copy">
+
+                                    </div>
+                                </f:for>
+                            </div>
+                            <div class="resizer"></div>
+                            <div class="additional-information block2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </f:for>
+    </div>
+</div>
+
+</html>
