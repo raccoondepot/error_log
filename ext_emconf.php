@@ -7,7 +7,9 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'typo3' => '12.4.0-12.4.99',
-            'symfony/http-client' => ''
+            'symfony/http-client' => '',
+            'slack-php/slack-block-kit' => '',
+            'erusev/parsedown' => ''
         ],
         'conflicts' => [
         ],
