@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace RD\ErrorLog\Service;
 
-use mysqli;
-use Psr\Container\ContainerInterface;
 use RD\ErrorLog\Domain\Model\Error;
 use RD\ErrorLog\Domain\Event\ErrorEvent;
 use RD\ErrorLog\Domain\Repository\ErrorRepository;
@@ -76,7 +74,7 @@ class LogWriter implements SingletonInterface
             'user' =>  isset($GLOBALS['BE_USER']) ? $GLOBALS['BE_USER']->user['username'] : '',
             'user_id' => $userId ?? 0,
             'workspace' => $workspace ?? 0,
-            'event_dispatched' => true,
+            'event_dispatched' => 0,
             'channel' => $channel,
         ];
 
@@ -98,96 +96,42 @@ class LogWriter implements SingletonInterface
     public function writeError(\Throwable $exception, string $channel = self::CONTEXT_WEB): void
     {
         $errorValues = $this->collectInformationForEvent($exception, $channel);
-        $container = $this->getContainer();
-        if ($container === null) {
-            $this->writeDirectlyIntoDatabase($errorValues);
-        } else {
-            $this->write($errorValues);
-        }
+        $errorValues['uid'] = $this->write($errorValues);
+        $this->dispatchErrorEvent($errorValues);
     }
 
-    private function write(array $errorValues): void
+    private function dispatchErrorEvent(array $errorValues): void
     {
+        try {
+            $container = GeneralUtility::getContainer();
+        } catch (Exception $e) {
+            return;
+        }
+
+        if ($container->has(ErrorRepository::class) === false || $container->has(EventDispatcher::class) === false) {
+            return;
+        }
+
         $errorRepository = GeneralUtility::makeInstance(ErrorRepository::class);
         $eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('tx_errorlog_domain_model_error');
-
-        $connection->insert('tx_errorlog_domain_model_error', $errorValues);
-        $errorValues['uid'] = (int) $connection->lastInsertId();
         $error = new Error($errorValues);
         $errorTypeHash = $errorRepository->generateErrorTypeHash($error);
         $isFirstOccurrence = $errorRepository->isFirstOccurrence($errorTypeHash);
         if ($isFirstOccurrence) {
             $errorRepository->createOccurrence($errorTypeHash, $error->getUid());
         }
-
         $eventDispatcher->dispatch(new ErrorEvent($error, $isFirstOccurrence));
+        $errorRepository->setDispatchedEventForErrors([$error->getUid()]);
+    }
+    private function write(array $errorValues): int
+    {
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tx_errorlog_domain_model_error');
+        $connection->insert('tx_errorlog_domain_model_error', $errorValues);
+        return (int) $connection->lastInsertId();
     }
 
     private function getBackendUser(): ?BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'] ?? null;
-    }
-
-    private function getContainer(): ?ContainerInterface
-    {
-        $container = null;
-        try {
-            $container = GeneralUtility::getContainer();
-        } catch (\Exception $e) {
-            // Do nothing
-        }
-        return $container;
-    }
-
-    // We need to write directly into the database while the DI container is not available
-    private function writeDirectlyIntoDatabase(array $errorValues): void
-    {
-        if (empty($GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']) || !class_exists(mysqli::class)) {
-            return;
-        }
-
-        $errorValues['event_dispatched'] = false;
-
-        $servername = $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['host'];
-        $username = $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['user'];
-        $password = $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['password'];
-        $dbname = $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['dbname'];
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        if ($conn->connect_error) {
-            return;
-        }
-
-        foreach ($errorValues as $key => $value) {
-            if (is_string($value)) {
-                $errorValues[$key] = $conn->real_escape_string($value);
-            }
-            if (is_bool($value)) {
-                $errorValues[$key] = (int) $value;
-            }
-        }
-
-        $sql = "INSERT INTO tx_errorlog_domain_model_error (message, code, file, line, trace, browser_info, server_name, request_uri, root_page_uid, crdate, IP, user, user_id, workspace, event_dispatched)
-                VALUES ('{$errorValues['message']}',
-                        '{$errorValues['code']}',
-                        '{$errorValues['file']}',
-                        '{$errorValues['line']}',
-                        '{$errorValues['trace']}',
-                        '{$errorValues['browser_info']}',
-                        '{$errorValues['server_name']}',
-                        '{$errorValues['request_uri']}',
-                        '{$errorValues['root_page_uid']}',
-                        '{$errorValues['crdate']}',
-                        '{$errorValues['IP']}',
-                        '{$errorValues['user']}',
-                        '{$errorValues['user_id']}',
-                        '{$errorValues['workspace']}',
-                        '{$errorValues['event_dispatched']}'
-                )";
-
-        $conn->query($sql);
-        $conn->close();
     }
 }

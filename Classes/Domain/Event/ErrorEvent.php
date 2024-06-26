@@ -26,19 +26,15 @@ class ErrorEvent
 
     public function getUrl(): string
     {
-        try {
             $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-            $route = 'system_ErrorLogTxErrorlog';
+            $route = 'error_log';
             $parameters = [
-                'tx_errorlog_system_errorlogtxerrorlog[uid]' => $this->error->getUid(),
-                'tx_errorlog_system_errorlogtxerrorlog[action]' => 'view',
+                'uid' => $this->error->getUid(),
+                'action' => 'view',
             ];
-            $referenceType = 'share';
 
-            return (string)$uriBuilder->buildUriFromRoute($route, $parameters, $referenceType);
-        } catch (Exception $e) {
-            return '';
-        }
+            $url = (string) $uriBuilder->buildUriFromRoute($route, $parameters, UriBuilder::ABSOLUTE_URL);
+            return $url;
     }
 
     public function isFirstOccurrence(): bool

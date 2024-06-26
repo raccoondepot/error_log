@@ -2,57 +2,10 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
-    public: false
+    public: true
 
   RD\ErrorLog\:
     resource: '../Classes/*'
-
-  RD\ErrorLog\Service\ReportService:
-    public: true
-    autowire: true
-    autoconfigure: true
-
-  RD\ErrorLog\Service\ConfigurationService:
-      public: true
-      autowire: true
-      autoconfigure: true
-
-  RD\ErrorLog\Service\CleanService:
-    public: true
-    autowire: true
-    autoconfigure: true
-
-  RD\ErrorLog\Handler\ContentObjectExceptionHandler:
-    public: true
-    shared: true
-
-  RD\ErrorLog\Handler\DebugExceptionHandler:
-    public: true
-    shared: true
-
-  RD\ErrorLog\Handler\ProductionExceptionHandler:
-    public: true
-    shared: true
-
-  RD\ErrorLog\Service\LogWriter:
-    public: true
-    autowire: true
-    autoconfigure: true
-
-  RD\ErrorLog\Task\ServiceManagerTask:
-    public: true
-    autowire: true
-    autoconfigure: true
-
-  RD\ErrorLog\Backend\Controller\AIController:
-    public: true
-    autowire: true
-    autoconfigure: true
-
-  RD\ErrorLog\Backend\Controller\SlackController:
-    public: true
-    autowire: true
-    autoconfigure: true
 
   RD\ErrorLog\EventListener\EmailOnEventOccurredListener:
     tags:

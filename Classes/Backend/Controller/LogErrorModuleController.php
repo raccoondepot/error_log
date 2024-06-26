@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RD\ErrorLog\Backend\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 use RD\ErrorLog\Domain\Enum\Frequency;
 use RD\ErrorLog\Domain\Enum\Model;
 use RD\ErrorLog\Domain\Enum\Option;
@@ -21,10 +22,10 @@ use TYPO3\CMS\Belog\Domain\Repository\LogEntryRepository;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Information\Typo3Version;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Pagination\ArrayPaginator;
 use TYPO3\CMS\Core\Pagination\SimplePagination;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -35,8 +36,8 @@ class LogErrorModuleController extends ActionController
     protected LogEntryRepository $logEntryRepository;
     protected BackendUriBuilder $backendUriBuilder;
     protected IconFactory $iconFactory;
-    protected PageRenderer $pageRenderer;
     protected ModuleTemplate $moduleTemplate;
+    protected PageRenderer $pageRenderer;
     protected ErrorRepository $errorRepository;
     protected SettingsRepository $settingsRepository;
     protected BackendUserRepository $backendUserRepository;
@@ -64,19 +65,20 @@ class LogErrorModuleController extends ActionController
         $this->configurationService = $configurationService;
     }
 
+
     public function initializeAction(): void
     {
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-        $this->moduleTemplate->setTitle($this->translate('errors_log'));
     }
 
-    public function indexAction(Filter $filter = null, int $currentPage = 1, string $operation = '')
+    public function indexAction(Filter $filter = null, int $currentPage = 1, string $operation = ''): ResponseInterface
     {
         if ($filter === null || $operation === 'reset') {
             $filter = new Filter();
         }
 
-        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Backend/DateTimePicker');
+        $this->pageRenderer->loadJavaScriptModule('@rd/error-log/ListModule.js');
+
         $errors = $this->errorRepository->getErrors($filter);
         $maxOptions = [
             '25' => '25',
@@ -93,17 +95,21 @@ class LogErrorModuleController extends ActionController
 
         $paginator = new ArrayPaginator($errors, $currentPage, $filter->getLimit());
         $pagination = new SimplePagination($paginator);
-        $this->view->assignMultiple([
+        $viewVariables = [
             'paginator' => $paginator,
             'pagination' => $pagination,
             'currentPage' => $currentPage,
             'maxOptions' => $maxOptions,
             'rootPages' => $rootPages,
             'filter' => $filter,
-        ]);
+        ];
         $this->addMainMenu('index');
-        $this->moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($this->moduleTemplate->renderContent());
+
+        return $this->moduleTemplate
+            ->setFlashMessageQueue($this->getFlashMessageQueue())
+            ->setTitle($this->translate('errors_log'))
+            ->assignMultiple($viewVariables)
+            ->renderResponse('LogErrorModule/Index');
     }
 
     /**
@@ -111,11 +117,11 @@ class LogErrorModuleController extends ActionController
      *
      * @param int $uid The ID of the error entry to delete
      */
-    public function deleteAction(int $uid): void
+    public function deleteAction(int $uid): ResponseInterface
     {
         $this->errorRepository->deleteByUid($uid);
-        $this->addFlashMessage($this->translate('messages.errors_deleted'), '', \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO);
-        $this->redirect('index');
+        $this->addFlashMessage($this->translate('messages.errors_deleted'), '', ContextualFeedbackSeverity::INFO);
+        return $this->redirect('index');
     }
 
     public function viewAction(int $uid)
@@ -127,11 +133,10 @@ class LogErrorModuleController extends ActionController
             $this->addFlashMessage(
                 $this->translate('messages.log_not_found'),
                 '',
-                AbstractMessage::ERROR
+                ContextualFeedbackSeverity::ERROR
             );
             $this->redirect('index');
         }
-
         $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
         $backButton = $buttonBar->makeLinkButton()
             ->setIcon($this->iconFactory->getIcon('actions-view-go-back', Icon::SIZE_SMALL))
@@ -145,21 +150,22 @@ class LogErrorModuleController extends ActionController
 
         $buttonBar->addButton($deleteButton, ButtonBar::BUTTON_POSITION_RIGHT);
         $this->pageRenderer->addCssFile('EXT:error_log/Resources/Public/Css/Backend.css');
-        $this->pageRenderer->addCssFile('EXT:error_log/Resources/Public/Css/highlight.css');
-        $this->pageRenderer->addJsFooterFile('EXT:error_log/Resources/Public/JavaScript/Backend.js');
-        $this->pageRenderer->addJsFooterFile('EXT:error_log/Resources/Public/JavaScript/json.js');
-        $this->pageRenderer->addJsFooterFile('EXT:error_log/Resources/Public/JavaScript/highlight.min.js');
-        $this->pageRenderer->addJsFooterFile('EXT:error_log/Resources/Public/JavaScript/Ai.js');
 
-        $this->view->assignMultiple(
-            [
-                'settings' => $settings,
-                'errors' => $errors,
-                'AIPrompt' => $this->buildAIPrompt($errors[0]),
-            ]
-        );
-        $this->moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($this->moduleTemplate->renderContent());
+        $this->pageRenderer->loadJavaScriptModule('@rd/error-log/Contrib/json.js');
+        $this->pageRenderer->loadJavaScriptModule('@rd/error-log/AIModule.js');
+        $this->pageRenderer->loadJavaScriptModule('@rd/error-log/LogError.js');
+
+        $viewVariables = [
+            'settings' => $settings,
+            'errors' => $errors,
+            'AIPrompt' => $this->buildAIPrompt($errors[0]),
+        ];
+
+        return $this->moduleTemplate
+            ->setFlashMessageQueue($this->getFlashMessageQueue())
+            ->setTitle($this->translate('errors_log'))
+            ->assignMultiple($viewVariables)
+            ->renderResponse('LogErrorModule/View');
     }
 
     private function buildAIPrompt(array $error): string
@@ -180,7 +186,7 @@ class LogErrorModuleController extends ActionController
         return $AIPrompt;
     }
 
-    public function settingsAction()
+    public function settingsAction(): ResponseInterface
     {
         $message = '';
         $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
@@ -202,33 +208,37 @@ class LogErrorModuleController extends ActionController
         }
 
         $users = $this->backendUserRepository->getUsersWithEnabledErrorsNotifications();
-        $this->pageRenderer->addJsFooterFile('EXT:error_log/Resources/Public/JavaScript/Ai.js');
-        $this->pageRenderer->addJsFooterFile('EXT:error_log/Resources/Public/JavaScript/Slack.js');
 
-        $this->view->assignMultiple(
-            [
-                'message' => $message,
-                'settings' => $settings,
-                'users' => $users,
-                'occurrenceOptions' => $this->translateOptions(Option::getOptions()),
-                'errorReportsOptions' => $this->translateOptions(Frequency::getOptions()),
-                'modelOptions' => $this->translateOptions(Model::getOptions()),
-            ]
-        );
+        $this->pageRenderer->loadJavaScriptModule('@rd/error-log/AITestModule.js');
+        $this->pageRenderer->loadJavaScriptModule('@rd/error-log/SlackTestModule.js');
+
+        $viewVariables = [
+            'message' => $message,
+            'settings' => $settings,
+            'users' => $users,
+            'occurrenceOptions' => $this->translateOptions(Option::getOptions()),
+            'errorReportsOptions' => $this->translateOptions(Frequency::getOptions()),
+            'modelOptions' => $this->translateOptions(Model::getOptions()),
+        ];
+
         $this->addMainMenu('settings');
-        $this->moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($this->moduleTemplate->renderContent());
+
+        return $this->moduleTemplate
+            ->setFlashMessageQueue($this->getFlashMessageQueue())
+            ->setTitle($this->translate('errors_log'))
+            ->assignMultiple($viewVariables)
+            ->renderResponse('LogErrorModule/Settings');
     }
 
-    public function saveSettingsAction(Settings $settings): void
+    public function saveSettingsAction(Settings $settings): ResponseInterface
     {
         $arguments = $this->request->getArguments();
         $this->settingsRepository->update($settings);
         if ($settings->getGeneralEnable()) {
             $this->configurationService->modifyHandlers(true);
         }
-        $this->addFlashMessage($this->translate('messages.settings_saved'), '', AbstractMessage::INFO);
-        $this->redirect('settings', null, null, $arguments);
+        $this->addFlashMessage($this->translate('messages.settings_saved'), '', ContextualFeedbackSeverity::INFO);
+        return $this->redirect('settings', null, null, $arguments);
     }
 
     protected function addMainMenu(string $currentAction): void

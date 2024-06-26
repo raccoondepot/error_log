@@ -169,9 +169,6 @@
             <trans-unit id="settings.openai_auth_token">
                 <source>OpenAI authorization token</source>
             </trans-unit>
-            <trans-unit id="settings.openaiPrePrompt">
-                <source>OpenAI system pre-prompt</source>
-            </trans-unit>
             <trans-unit id="settings.openai_model">
                 <source>OpenAI GPT model</source>
             </trans-unit>

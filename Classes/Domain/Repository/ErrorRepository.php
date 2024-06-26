@@ -7,6 +7,7 @@ namespace RD\ErrorLog\Domain\Repository;
 use Exception;
 use RD\ErrorLog\Domain\Model\Error;
 use RD\ErrorLog\Domain\Model\Filter;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -40,7 +41,7 @@ class ErrorRepository extends RepositoryAlias
                 ->groupBy('code', 'line', 'file');
         }
 
-        return $queryBuilder->execute()->fetchAllAssociative();
+        return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 
     protected function createQueryConstraints(QueryBuilder $queryBuilder, Filter $filter): array
@@ -57,7 +58,7 @@ class ErrorRepository extends RepositoryAlias
 
         if ($filter->getSearch() !== '') {
             $queryConstraints[] =
-                $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->or(
                     $queryBuilder->expr()->like('code', $queryBuilder->createNamedParameter('%' . $filter->getSearch() . '%', \PDO::PARAM_STR)),
                     $queryBuilder->expr()->like('message', $queryBuilder->createNamedParameter('%' . $filter->getSearch() . '%', \PDO::PARAM_STR)),
                     $queryBuilder->expr()->like('file', $queryBuilder->createNamedParameter('%' . $filter->getSearch() . '%', \PDO::PARAM_STR)),
@@ -86,7 +87,7 @@ class ErrorRepository extends RepositoryAlias
             ->where(
                 $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
 
         if ($error) {
@@ -99,15 +100,16 @@ class ErrorRepository extends RepositoryAlias
                     $queryBuilder->expr()->eq('file', $queryBuilder->createNamedParameter($error['file'], \PDO::PARAM_STR))
                 )
                 ->orderBy('crdate', 'DESC')
-                ->execute()
+                ->executeQuery()
                 ->fetchAllAssociative();
         }
 
         return null;
     }
 
-    public function deleteByUid($uid)
+    public function deleteByUid($uid): ?int
     {
+        $result = null;
         $queryBuilder = $this->getQueryBuilderForTable(self::ERROR_LOG_TABLE);
 
         $error = $queryBuilder
@@ -116,21 +118,22 @@ class ErrorRepository extends RepositoryAlias
             ->where(
                 $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
 
+        $queryBuilder = $this->getQueryBuilderForTable(self::ERROR_LOG_TABLE);
+
         if ($error) {
-            return $queryBuilder
-                ->delete(self::ERROR_LOG_TABLE)
+            $queryBuilder
                 ->where(
                     $queryBuilder->expr()->eq('code', $queryBuilder->createNamedParameter($error['code'], \PDO::PARAM_INT)),
                     $queryBuilder->expr()->eq('line', $queryBuilder->createNamedParameter($error['line'], \PDO::PARAM_INT)),
                     $queryBuilder->expr()->eq('file', $queryBuilder->createNamedParameter($error['file'], \PDO::PARAM_STR))
-                )
-                ->execute();
+                );
+              $result = $queryBuilder->delete(self::ERROR_LOG_TABLE)->executeStatement();
         }
 
-        return null;
+        return $result;
     }
 
     public function getRootPages()
@@ -140,7 +143,7 @@ class ErrorRepository extends RepositoryAlias
             ->select('root_page_uid')
             ->from(self::ERROR_LOG_TABLE)
             ->groupBy('root_page_uid')
-            ->execute()
+            ->executeQuery()
             ->fetchAllAssociative();
     }
 
@@ -153,23 +156,22 @@ class ErrorRepository extends RepositoryAlias
             ->where(
                 $queryBuilder->expr()->eq('error_hash', $queryBuilder->createNamedParameter($errorTypeHash))
             )
-            ->execute()
-            ->fetchOne();
+            ->executeQuery()->fetchOne();
 
         return $count === 0;
     }
 
     public function createOccurrence(string $errorTypeHash, int $errorUid): void
     {
-        $queryBuilder = $this->getQueryBuilderForTable('tx_errorlog_hashes');
+        $queryBuilder = $this->getConnectionForTable('tx_errorlog_hashes');
         $queryBuilder
-            ->insert('tx_errorlog_hashes')
-            ->values([
-                'error_hash' => $errorTypeHash,
-                'error_uid' => $errorUid,
-                'occurred_at' => (new \DateTime())->format('Y-m-d H:i:s'),
-            ])
-            ->execute();
+            ->insert('tx_errorlog_hashes',
+                [
+                    'error_hash' => $errorTypeHash,
+                    'error_uid' => $errorUid,
+                    'occurred_at' => (new \DateTime())->format('Y-m-d H:i:s'),
+                ]
+            );
     }
 
     public function deleteErrorsOlderThan(int $days): void
@@ -180,7 +182,7 @@ class ErrorRepository extends RepositoryAlias
             ->where(
                 $queryBuilder->expr()->lte('crdate', $queryBuilder->createNamedParameter(time() - $days * 24 * 60 * 60, \PDO::PARAM_INT))
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAllAssociative();
 
         $queryBuilder
@@ -188,7 +190,7 @@ class ErrorRepository extends RepositoryAlias
             ->where(
                 $queryBuilder->expr()->in('uid', array_column($uids, 'uid'))
             )
-            ->execute();
+            ->executeQuery();
 
         $queryBuilder = $this->getQueryBuilderForTable('tx_errorlog_hashes');
         $queryBuilder
@@ -196,7 +198,7 @@ class ErrorRepository extends RepositoryAlias
             ->where(
                 $queryBuilder->expr()->in('error_uid', array_column($uids, 'uid'))
             )
-            ->execute();
+            ->executeQuery();
     }
 
     public function gerErrorsReport(int $seconds)
@@ -210,6 +212,11 @@ class ErrorRepository extends RepositoryAlias
     public function getQueryBuilderForTable(string $table): QueryBuilder
     {
         return GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+    }
+
+    public function getConnectionForTable(string $table): Connection
+    {
+        return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
     }
 
     public function generateErrorTypeHash($error): string
@@ -234,6 +241,6 @@ class ErrorRepository extends RepositoryAlias
             ->where(
                 $queryBuilder->expr()->in('uid', $uids)
             )
-            ->execute();
+            ->executeQuery();
     }
 }
