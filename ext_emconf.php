@@ -6,8 +6,10 @@ $EM_CONF[$_EXTKEY] = [
     'category' => 'extension',
     'constraints' => [
         'depends' => [
-            'typo3' => '11.5.0-11.5.99',
-            'symfony/http-client' => ''
+            'typo3' => '12.4.0-12.4.99',
+            'symfony/http-client' => '',
+            'slack-php/slack-block-kit' => '',
+            'erusev/parsedown' => ''
         ],
         'conflicts' => [
         ],
@@ -24,5 +26,5 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Serhii Voronov, Rostyslav Matviiv, Andrii Pozdieiev',
     'author_email' => 'info@raccoon-depot.com',
     'author_company' => 'Raccoon Depot',
-    'version' => '11.5.0',
+    'version' => '12.4.0',
 ];

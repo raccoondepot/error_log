@@ -19,8 +19,3 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
         'additionalFields' => ''
     ];
 })('error_log');
-
-
-call_user_func(function () {
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['errorLogInstallTask'] = \RD\ErrorLog\Updates\InstallExtension::class;
-});

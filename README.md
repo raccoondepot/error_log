@@ -1,9 +1,6 @@
-[![ErrorLog](https://img.shields.io/badge/beta-v11.5.0-green?style=flat-square)](github.com/raccoondepot/error_log) [![TYPO3 11](https://img.shields.io/badge/TYPO3-11-orange.svg?style=flat-square)](https://get.typo3.org/version/11) [![License](https://img.shields.io/github/license/TYPO3-Documentation/tea?style=flat-square)]() [![RD](https://img.shields.io/badge/Raccoon-Depot-50b99a?style=flat-square)](https://raccoondepot.com)
+[![ErrorLog](https://img.shields.io/badge/beta-v11.5.0-green?style=flat-square)](github.com/raccoondepot/error_log) [![TYPO3 12](https://img.shields.io/badge/TYPO3-12-orange.svg?style=flat-square)](https://get.typo3.org/version/12) [![License](https://img.shields.io/github/license/TYPO3-Documentation/tea?style=flat-square)]() [![RD](https://img.shields.io/badge/Raccoon-Depot-50b99a?style=flat-square)](https://raccoondepot.com)
 
 # TYPO3 Advanced Error Log
-
-[TOC]
-
 
 ## Features
 - Handle TYPO3 errors and content object exceptions
@@ -25,7 +22,7 @@ To add Advanced Error Log, you first need to add its GitHub source code to your 
 "repositories": [
 	{
 		"type": "git",
-		"url": "git@github.com/raccoondepot/error_log.git"
+		"url": "git@github.com:raccoondepot/error_log.git"
 	}
 ]
 ```

@@ -13,9 +13,9 @@ services:
     autoconfigure: true
 
   RD\ErrorLog\Service\ConfigurationService:
-      public: true
-      autowire: true
-      autoconfigure: true
+    public: true
+    autowire: true
+    autoconfigure: true
 
   RD\ErrorLog\Service\CleanService:
     public: true

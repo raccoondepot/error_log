@@ -6,10 +6,10 @@
     "license": ["GPL-2.0-or-later"],
     "keywords": ["TYPO3 CMS"],
     "require": {
-        "typo3/cms-core": "^11.5",
+        "typo3/cms-core": "^12.4",
+        "typo3/cms-scheduler": "^12.4",
         "symfony/http-client": "^5.4",
-        "typo3/cms-scheduler": "^11.5",
-        "slack-php/slack-block-kit": "*",
+        "slack-php/slack-block-kit": "^2.1",
         "erusev/parsedown": "^1.7"
     },
     "autoload": {

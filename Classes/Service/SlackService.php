@@ -17,7 +17,7 @@ class SlackService implements SingletonInterface
                 'base_uri' => 'https://slack.com',
             ]);
 
-            $response = $client->request('POST', "/api/chat.postMessage", [
+            $client->request('POST', "/api/chat.postMessage", [
                 'headers' => [
                     'Accept' => 'application/json; charset=utf-8',
                 ],

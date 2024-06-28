@@ -1,7 +1,8 @@
 <html
         xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
         data-namespace-typo3-fluid="true">
-<f:layout name="Default"/>
+<f:layout name="Default" />
+
 <f:section name="Content">
     <f:flashMessages/>
     <h1>
@@ -106,9 +107,6 @@
                         <div class="pb-2">
                             <f:form.textfield name="openaiAuthToken" class="form-control" property="openaiAuthToken"/>
                         </div>
-                        <label for="prePrompt" class="pb-2">
-                            <f:translate key="settings.openaiPrePrompt"/>
-                        </label>
                         <div class="pb-2">
                             <f:form.textarea name="prePrompt" class="form-control" property="prePrompt"/>
                         </div>

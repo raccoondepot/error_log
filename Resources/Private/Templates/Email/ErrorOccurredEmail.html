@@ -13,12 +13,6 @@
             <table class="content" width="600" border="0" cellspacing="0" cellpadding="0"
                    style="border-collapse: collapse; background: #ffffff;">
                 <tr>
-                    <td class="header"
-                        style="background-color: #fff; padding: 40px; text-align: center; color: #000; font-size: 42px; font-weight: 700;">
-                        {f:translate(key: 'email.error.hello', extensionName: 'error_log')} {name}
-                    </td>
-                </tr>
-                <tr>
                     <td class="body" style="padding: 20px 40px; text-align: left; font-size: 16px; line-height: 1.6;">
                         <p> {f:translate(key: 'email.error.the_error_occurred', extensionName: 'error_log')}</p>
                         <div><strong>{f:translate(key: 'email.error.file', extensionName: 'error_log')}</strong>
@@ -53,10 +47,10 @@
                 <tr>
                     <td style="padding: 20px 40px; text-align: left; font-size: 16px; line-height: 1.6;">
                         <div>
-                            <f:be.link 
-                                route="system_ErrorLogTxErrorlog" 
-                                referenceType="share" 
-                                parameters="{'tx_errorlog_system_errorlogtxerrorlog[uid]': errors.uid, 'tx_errorlog_system_errorlogtxerrorlog[action]': 'view'}"
+                            <f:be.link
+                                    route="error_log"
+                                    referenceType="share"
+                                    parameters="{'uid': errors.uid, 'action': 'view'}"
                             >
                                 {f:translate(key: 'email.error.see_more', extensionName: 'error_log')}
                             </f:be.link>

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace RD\ErrorLog\Updates;
 
+use RD\ErrorLog\Service\ConfigurationService;
 use RD\ErrorLog\Task\ServiceManagerTask;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Scheduler\Scheduler;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
+use TYPO3\CMS\Scheduler\Domain\Repository\SchedulerTaskRepository;
 
+#[UpgradeWizard('errorLogInstallTask')]
 class InstallExtension implements UpgradeWizardInterface
 {
     public function getIdentifier(): string
@@ -28,12 +31,12 @@ class InstallExtension implements UpgradeWizardInterface
 
     public function executeUpdate(): bool
     {
-        $scheduler = GeneralUtility::makeInstance(Scheduler::class);
+        $schedulerTaskRepository = GeneralUtility::makeInstance(SchedulerTaskRepository::class);
         $task = GeneralUtility::makeInstance(ServiceManagerTask::class);
         $task->registerRecurringExecution(time(), 86400);
         $task->setDescription('This is error log service manager task');
-        $scheduler->addTask($task);
-        $configurationService = GeneralUtility::makeInstance(\RD\ErrorLog\Service\ConfigurationService::class);
+        $schedulerTaskRepository->add($task);
+        $configurationService = GeneralUtility::makeInstance(ConfigurationService::class);
         $configurationService->modifyHandlers(true);
         return true;
     }
