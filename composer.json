@@ -1,5 +1,5 @@
 {
-    "name": "rd/error-log",
+    "name": "raccoondepot/error-log",
     "type": "typo3-cms-extension",
     "description": "Error log extension for TYPO3 CMS",
     "homepage": "https://github.com/raccoondepot/error_log/",
