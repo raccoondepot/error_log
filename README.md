@@ -25,7 +25,7 @@ To add Advanced Error Log, you first need to add its GitHub source code to your 
 "repositories": [
 	{
 		"type": "git",
-		"url": "git@github.com/raccoondepot/error_log.git"
+		"url": "git@github.com:raccoondepot/error_log.git"
 	}
 ]
 ```
