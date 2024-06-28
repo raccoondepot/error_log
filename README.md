@@ -2,9 +2,6 @@
 
 # TYPO3 Advanced Error Log
 
-[TOC]
-
-
 ## Features
 - Handle TYPO3 errors and content object exceptions
 - Display grouped errors in the TYPO3 backend module
