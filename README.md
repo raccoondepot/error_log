@@ -17,16 +17,7 @@ Basic requirements are the same as for the TYPO3 version it used with, however s
 Starting from `PHP v7.4`, a new ini directive `zend.exception_ignore_args` with default value `On` was added. As result, there are no arguments collected with default PHP setup. It should be changed to `zend.exception_ignore_args = Off`.
 
 ## Installation
-To add Advanced Error Log, you first need to add its GitHub source code to your project\'s composer.json  *repositories* section like this:
-```json
-"repositories": [
-	{
-		"type": "git",
-		"url": "git@github.com:raccoondepot/error_log.git"
-	}
-]
-```
-After that you can add it with 
+You can install Advanced error log with 
 ```bash
 composer require rd/error-log
 ```
