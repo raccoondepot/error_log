@@ -14,29 +14,26 @@ use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 
 class ReportService
 {
-    private EventDispatcher $eventDispatcher;
-    private ErrorRepository $errorRepository;
-
-    public function __construct(EventDispatcher $eventDispatcher, ErrorRepository $errorRepository)
-    {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->errorRepository = $errorRepository;
+    public function __construct(
+        private readonly EventDispatcher $eventDispatcher,
+        private readonly ErrorRepository $errorRepository
+    ) {
     }
 
     public function run(): void
     {
         if (date('i') == 0) {
-            $this->dispatchReport(Frequency::HOURLY);
+            $this->dispatchReport(new Frequency(Frequency::HOURLY));
 
             if (date('G') == 0) {
-                $this->dispatchReport(Frequency::DAILY);
+                $this->dispatchReport(new Frequency(Frequency::DAILY));
 
                 if (date('w') == 1) {
-                    $this->dispatchReport(Frequency::WEEKLY);
+                    $this->dispatchReport(new Frequency(Frequency::WEEKLY));
                 }
 
                 if (date('d') == 1) {
-                    $this->dispatchReport(Frequency::MONTHLY);
+                    $this->dispatchReport(new Frequency(Frequency::MONTHLY));
                 }
             }
         }

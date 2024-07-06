@@ -24,7 +24,7 @@ class Filter
     }
 
     /**
-     * @param string $start
+     * @param  string $start
      * @return void
      */
     public function setStart(string $start): void
@@ -41,7 +41,7 @@ class Filter
     }
 
     /**
-     * @param string $end
+     * @param  string $end
      * @return void
      */
     public function setEnd(string $end): void
@@ -58,7 +58,7 @@ class Filter
     }
 
     /**
-     * @param string $search
+     * @param  string $search
      * @return void
      */
     public function setSearch(string $search): void
@@ -75,7 +75,7 @@ class Filter
     }
 
     /**
-     * @param int $rootPage
+     * @param  int $rootPage
      * @return void
      */
     public function setRootPage(int $rootPage): void
@@ -92,7 +92,7 @@ class Filter
     }
 
     /**
-     * @param int $limit
+     * @param  int $limit
      * @return void
      */
     public function setLimit(int $limit): void

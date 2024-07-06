@@ -7,23 +7,15 @@ namespace RD\ErrorLog\EventListener;
 use RD\ErrorLog\Domain\Enum\Option;
 use RD\ErrorLog\Domain\Event\ErrorEvent;
 use RD\ErrorLog\Domain\Repository\BackendUserRepository;
-use RD\ErrorLog\Domain\Repository\ErrorRepository;
-use RD\ErrorLog\Service\MailService;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use RD\ErrorLog\Queue\Message\ErrorEmailMessage;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class EmailOnEventOccurredListener
 {
-    const TEMPLATE_PATH = 'EXT:error_log/Resources/Private/Templates/Email/ErrorOccurredEmail.html';
-
-    private MailService $mailService;
-    private BackendUserRepository $backendUserRepository;
-    private ErrorRepository $errorRepository;
-
-    public function __construct(MailService $mailService, BackendUserRepository $backendUserRepository, ErrorRepository $errorRepository)
-    {
-        $this->mailService = $mailService;
-        $this->backendUserRepository = $backendUserRepository;
-        $this->errorRepository = $errorRepository;
+    public function __construct(
+        private readonly BackendUserRepository $backendUserRepository,
+        private readonly MessageBusInterface $messageBus
+    ) {
     }
 
     public function __invoke(ErrorEvent $event)
@@ -42,11 +34,6 @@ class EmailOnEventOccurredListener
 
     private function notifyUser($user, $error)
     {
-        $this->mailService->sendEmail(
-            self::TEMPLATE_PATH,
-            $user,
-            $error,
-            LocalizationUtility::translate('email.subject_error_occurred', 'error_log')
-        );
+        $this->messageBus->dispatch(new ErrorEmailMessage($user, $error));
     }
 }

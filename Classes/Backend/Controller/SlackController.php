@@ -11,11 +11,9 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 
 class SlackController
 {
-    private SlackService $slackService;
-
-    public function __construct(SlackService $slackService)
-    {
-        $this->slackService = $slackService;
+    public function __construct(
+        private readonly SlackService $slackService
+    ) {
     }
 
     public function testAction(ServerRequestInterface $request): JsonResponse
