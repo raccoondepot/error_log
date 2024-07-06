@@ -6,22 +6,13 @@ namespace RD\ErrorLog\Service;
 
 use RD\ErrorLog\Domain\Repository\ErrorRepository;
 use RD\ErrorLog\Domain\Repository\SettingsRepository;
-use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 
 class CleanService
 {
-    private EventDispatcher $eventDispatcher;
-    private SettingsRepository $settingsRepository;
-    private ErrorRepository $errorRepository;
-
     public function __construct(
-        EventDispatcher $eventDispatcher,
-        SettingsRepository $settingsRepository,
-        ErrorRepository $errorRepository
+        private readonly SettingsRepository $settingsRepository,
+        private readonly ErrorRepository $errorRepository
     ) {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->settingsRepository = $settingsRepository;
-        $this->errorRepository = $errorRepository;
     }
 
     public function run(): void

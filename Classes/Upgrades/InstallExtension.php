@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RD\ErrorLog\Updates;
+namespace RD\ErrorLog\Upgrades;
 
 use RD\ErrorLog\Service\ConfigurationService;
 use RD\ErrorLog\Task\ServiceManagerTask;
@@ -11,14 +11,9 @@ use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 use TYPO3\CMS\Scheduler\Domain\Repository\SchedulerTaskRepository;
 
-#[UpgradeWizard('errorLogInstallTask')]
+#[UpgradeWizard('errorLog_InstallTask')]
 class InstallExtension implements UpgradeWizardInterface
 {
-    public function getIdentifier(): string
-    {
-        return 'errorLogInstallTask';
-    }
-
     public function getTitle(): string
     {
         return 'Add error log scheduler task, add error handlers';

@@ -13,11 +13,9 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 
 class AIController
 {
-    protected SettingsRepository $settingsRepository;
-
-    public function __construct(SettingsRepository $settingsRepository)
-    {
-        $this->settingsRepository = $settingsRepository;
+    public function __construct(
+        protected readonly SettingsRepository $settingsRepository
+    ) {
     }
 
     public function askAction(ServerRequestInterface $request): JsonResponse
@@ -62,11 +60,16 @@ class AIController
 
     private function getAIResponse(string $token, string $model, string $message, string $prePrompt): JsonResponse
     {
-        $client = HttpClient::create([
+        $client = HttpClient::create(
+            [
             'base_uri' => 'https://api.openai.com',
-        ]);
+            ]
+        );
         try {
-            $response = $client->request('POST', '/v1/chat/completions', [
+            $response = $client->request(
+                'POST',
+                '/v1/chat/completions',
+                [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $token,
                     'Content-Type' => 'application/json',
@@ -79,7 +82,8 @@ class AIController
                         ['role' => 'user', 'content' => $message]
                     ]
                 ],
-            ]);
+                ]
+            );
 
             $data = json_decode($response->getContent(), true);
 

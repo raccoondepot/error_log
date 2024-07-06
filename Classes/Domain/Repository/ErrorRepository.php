@@ -16,6 +16,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository as RepositoryAlias;
 class ErrorRepository extends RepositoryAlias
 {
     private const ERROR_LOG_TABLE = 'tx_errorlog_domain_model_error';
+
     public function getErrors(Filter $filter, bool $group = true)
     {
         $queryBuilder = $this->getQueryBuilderForTable(self::ERROR_LOG_TABLE);
@@ -165,7 +166,8 @@ class ErrorRepository extends RepositoryAlias
     {
         $queryBuilder = $this->getConnectionForTable('tx_errorlog_hashes');
         $queryBuilder
-            ->insert('tx_errorlog_hashes',
+            ->insert(
+                'tx_errorlog_hashes',
                 [
                     'error_hash' => $errorTypeHash,
                     'error_uid' => $errorUid,
@@ -211,7 +213,7 @@ class ErrorRepository extends RepositoryAlias
 
     public function getQueryBuilderForTable(string $table): QueryBuilder
     {
-        return GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table)->createQueryBuilder();
     }
 
     public function getConnectionForTable(string $table): Connection
@@ -241,6 +243,6 @@ class ErrorRepository extends RepositoryAlias
             ->where(
                 $queryBuilder->expr()->in('uid', $uids)
             )
-            ->executeQuery();
+            ->executeStatement();
     }
 }

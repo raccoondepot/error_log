@@ -14,11 +14,9 @@ class ConfigurationService
         'SYS/productionExceptionHandler' => 'RD\\ErrorLog\\Handler\\ProductionExceptionHandler',
     ];
 
-    private ConfigurationManager $configurationManager;
-
-    public function __construct(ConfigurationManager $configurationManager)
-    {
-        $this->configurationManager = $configurationManager;
+    public function __construct(
+        private readonly ConfigurationManager $configurationManager
+    ) {
     }
 
     public function checkAreHandlersIsSet(): bool
