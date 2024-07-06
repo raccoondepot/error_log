@@ -8,7 +8,9 @@ defined('TYPO3') or die('Access denied.');
 
 defined('TYPO3') or die();
 
-$GLOBALS['TYPO3_USER_SETTINGS']['columns'] = array_merge($GLOBALS['TYPO3_USER_SETTINGS']['columns'], [
+$GLOBALS['TYPO3_USER_SETTINGS']['columns'] = array_merge(
+    $GLOBALS['TYPO3_USER_SETTINGS']['columns'],
+    [
     'errorlog_enable_email' => [
         'label' => 'LLL:EXT:error_log/Resources/Private/Language/locallang_db.xlf:be_users.errorlog_enable_email',
         'type' => 'check',
@@ -39,7 +41,8 @@ $GLOBALS['TYPO3_USER_SETTINGS']['columns'] = array_merge($GLOBALS['TYPO3_USER_SE
         ],
         'table' => 'be_users'
     ],
-]);
+    ]
+);
 
 ExtensionManagementUtility::addFieldsToUserSettings(
     '--div--;LLL:EXT:error_log/Resources/Private/Language/locallang_db.xlf:be_users.errorlog_tab,errorlog_enable_email,errorlog_report_type,errorlog_occurrence_type',

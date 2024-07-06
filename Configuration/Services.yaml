@@ -66,3 +66,23 @@ services:
   RD\ErrorLog\EventListener\SlackMessageOnReportEventOccurredListener:
     tags:
       - name: 'event.listener'
+
+  RD\ErrorLog\Queue\Handler\ErrorEmailMessageHandler:
+    tags:
+      - name: 'messenger.message_handler'
+
+  RD\ErrorLog\Queue\Handler\ErrorSlackMessageHandler:
+    tags:
+      - name: 'messenger.message_handler'
+
+  RD\ErrorLog\Queue\Handler\ReportEmailMessageHandler:
+    tags:
+      - name: 'messenger.message_handler'
+
+  RD\ErrorLog\Queue\Handler\ReportSlackMessageHandler:
+    tags:
+      - name: 'messenger.message_handler'
+
+  RD\ErrorLog\Upgrades\InstallExtension:
+    tags:
+      - name: install.upgradewizard

@@ -10,23 +10,29 @@ use TYPO3\CMS\Core\SingletonInterface;
 
 class SlackService implements SingletonInterface
 {
-    public function sendBlocks(string $message, string $token, string $channelName)
+    public function sendBlocks(array $message, string $token, string $channelName)
     {
         try {
-            $client = HttpClient::create([
+            $client = HttpClient::create(
+                [
                 'base_uri' => 'https://slack.com',
-            ]);
+                ]
+            );
 
-            $client->request('POST', "/api/chat.postMessage", [
+            $client->request(
+                'POST',
+                "/api/chat.postMessage",
+                [
                 'headers' => [
                     'Accept' => 'application/json; charset=utf-8',
                 ],
                 'auth_bearer' => $token,
                 'json' => [
                     'channel' => $channelName,
-                    'blocks' => $message,
-                ],
-            ]);
+                    'blocks' => json_encode($message),
+                ]
+                ]
+            );
         } catch (Exception $e) {
             throw new Exception('Error occurred while sending message to slack: ' . $e->getMessage());
         }
@@ -35,11 +41,16 @@ class SlackService implements SingletonInterface
     public function sendMessage(string $message, string $token, string $channelName)
     {
         try {
-            $client = HttpClient::create([
+            $client = HttpClient::create(
+                [
                 'base_uri' => 'https://slack.com',
-            ]);
+                ]
+            );
 
-            $response = $client->request('POST', "/api/chat.postMessage", [
+            $response = $client->request(
+                'POST',
+                "/api/chat.postMessage",
+                [
                 'headers' => [
                     'Accept' => 'application/json; charset=utf-8',
                 ],
@@ -48,7 +59,8 @@ class SlackService implements SingletonInterface
                     'channel' => $channelName,
                     'text' => $message,
                 ],
-            ]);
+                ]
+            );
 
             return $response;
         } catch (Exception $e) {

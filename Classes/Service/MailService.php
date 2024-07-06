@@ -12,13 +12,10 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class MailService implements SingletonInterface
 {
-    private StandaloneView $standaloneView;
-    private MailMessage $mailMessage;
-
-    public function __construct(StandaloneView $standaloneView, MailMessage $mailMessage)
-    {
-        $this->standaloneView = $standaloneView;
-        $this->mailMessage = $mailMessage;
+    public function __construct(
+        private readonly StandaloneView $standaloneView,
+        private readonly MailMessage $mailMessage
+    ) {
     }
 
     public function sendEmail(string $template, BackendUser $user, $variables, $mailSubject): void
@@ -28,10 +25,12 @@ class MailService implements SingletonInterface
         }
 
         $this->standaloneView->setTemplatePathAndFilename($template);
-        $this->standaloneView->assignMultiple([
+        $this->standaloneView->assignMultiple(
+            [
             'name' => $user->getRealName() ?? $user->getUserName(),
             'errors' => $variables
-        ]);
+            ]
+        );
 
         $emailBody = $this->standaloneView->render();
 

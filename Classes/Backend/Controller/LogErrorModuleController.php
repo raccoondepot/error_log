@@ -32,37 +32,17 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 class LogErrorModuleController extends ActionController
 {
-    protected ModuleTemplateFactory $moduleTemplateFactory;
-    protected LogEntryRepository $logEntryRepository;
-    protected BackendUriBuilder $backendUriBuilder;
-    protected IconFactory $iconFactory;
-    protected ModuleTemplate $moduleTemplate;
-    protected PageRenderer $pageRenderer;
-    protected ErrorRepository $errorRepository;
-    protected SettingsRepository $settingsRepository;
-    protected BackendUserRepository $backendUserRepository;
-    protected ConfigurationService $configurationService;
-
     public function __construct(
-        ModuleTemplateFactory $moduleTemplateFactory,
-        LogEntryRepository $logEntryRepository,
-        BackendUriBuilder $backendUriBuilder,
-        IconFactory $iconFactory,
-        PageRenderer $pageRenderer,
-        ErrorRepository $errorRepository,
-        SettingsRepository $settingsRepository,
-        BackendUserRepository $backendUserRepository,
-        ConfigurationService $configurationService
+        protected readonly ModuleTemplateFactory $moduleTemplateFactory,
+        protected readonly LogEntryRepository $logEntryRepository,
+        protected readonly BackendUriBuilder $backendUriBuilder,
+        protected readonly IconFactory $iconFactory,
+        protected readonly PageRenderer $pageRenderer,
+        protected readonly ErrorRepository $errorRepository,
+        protected readonly SettingsRepository $settingsRepository,
+        protected readonly BackendUserRepository $backendUserRepository,
+        protected readonly ConfigurationService $configurationService
     ) {
-        $this->moduleTemplateFactory = $moduleTemplateFactory;
-        $this->logEntryRepository = $logEntryRepository;
-        $this->backendUriBuilder = $backendUriBuilder;
-        $this->iconFactory = $iconFactory;
-        $this->pageRenderer = $pageRenderer;
-        $this->errorRepository = $errorRepository;
-        $this->settingsRepository = $settingsRepository;
-        $this->backendUserRepository = $backendUserRepository;
-        $this->configurationService = $configurationService;
     }
 
 

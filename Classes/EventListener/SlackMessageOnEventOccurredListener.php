@@ -7,24 +7,19 @@ namespace RD\ErrorLog\EventListener;
 use RD\ErrorLog\Domain\Enum\Option;
 use RD\ErrorLog\Domain\Event\ErrorEvent;
 use RD\ErrorLog\Domain\Repository\SettingsRepository;
-use RD\ErrorLog\Service\SlackService;
+use RD\ErrorLog\Queue\Message\ErrorSlackMessage;
 use RD\ErrorLog\Traits\SlackSettingsTrait;
-use SlackPhp\BlockKit\Blocks\BlockImage;
-use SlackPhp\BlockKit\Blocks\Divider;
-use SlackPhp\BlockKit\Blocks\Section;
-use SlackPhp\BlockKit\Surfaces\Message;
+use SlackPhp\BlockKit\Kit;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class SlackMessageOnEventOccurredListener
 {
     use SlackSettingsTrait;
 
-    private SlackService $slackService;
-    private SettingsRepository $settingsRepository;
-
-    public function __construct(SlackService $service, SettingsRepository $settingsRepository)
-    {
-        $this->slackService = $service;
-        $this->settingsRepository = $settingsRepository;
+    public function __construct(
+        private readonly SettingsRepository $settingsRepository,
+        private readonly MessageBusInterface $messageBus
+    ) {
     }
 
     public function __invoke(ErrorEvent $event)
@@ -39,13 +34,14 @@ class SlackMessageOnEventOccurredListener
             return;
         }
 
-        $msg = new Message(
-            blocks: [
-                new Section(':red_circle: *The error occurred!*' . ' <' . $event->getUrl() . '|Open error in TYPO3 backend>')
-            ],
-            ephemeral: true
-        );
+        $msg = Kit::message()
+            ->blocks(
+                Kit::section(':red_circle: *The error occurred!*'),
+                Kit::divider(),
+                Kit::section('*Error message:* ' . $event->getError()->getMessage() . ' (' . $event->getError()->getCode() . ')'),
+                Kit::section(' <' . $event->getUrl() . '| Open error in TYPO3 backend>')
+            );
 
-        $this->slackService->sendBlocks($msg->toJson(true), $settings->getSlackAuthToken(), $settings->getSlackChannelId());
+        $this->messageBus->dispatch(new ErrorSlackMessage($msg->getBlocks(), $settings->getSlackAuthToken(), $settings->getSlackChannelId()));
     }
 }

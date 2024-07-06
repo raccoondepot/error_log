@@ -15,12 +15,12 @@
                    style="border-collapse: collapse; background: #ffffff;">
                 <tr>
                     <td class="header"
-                        style="background-color: #fff; padding: 30px; text-align: center; color: #000; font-size: 42px; font-weight: 500;">
-                        {f:translate(key: 'email.report.hello', extensionName: 'error_log')} {name}
+                        style="background-color: #fff; padding: 30px; text-align: center; color: #000; font-size: 30px; font-weight: 400;">
+                        {f:translate(key: 'email.report.errors_report', extensionName: 'error_log')}
                     </td>
                 </tr>
                 <tr>
-                    <td class="header"
+                    <td
                         style="background-color: #fff; padding: 20px; text-align: center; color: #000; font-size: 16px; font-weight: 400;">
                         {f:translate(key: 'email.report.error_occurred_times', arguments: '{0: errorCount}',
                         extensionName: 'error_log')}
@@ -40,11 +40,19 @@
                             <tbody>
                             <f:for each="{errors}" as="error">
                                 <tr>
-                                    <td style="border: 1px solid black; padding: 15px; text-align: left;">
+                                    <td style="border: 1px solid black; padding: 12px; text-align: left;">
                                         {error.message}
                                     </td>
-                                    <td style="border: 1px solid black; padding: 15px; text-align: left;">
-                                        {error.file}{error.line}: ({error.code})
+                                    <td style="border: 1px solid black; padding: 12px; text-align: left;">
+                                        <f:if condition="{error.code} == 0">
+                                           <f:then>
+                                               <f:variable name="code" value=""/>
+                                           </f:then>
+                                            <f:else>
+                                                <f:variable name="code" value=" ({error.code})"/>
+                                            </f:else>
+                                        </f:if>
+                                        {error.file}:{error.line} {code}
                                     </td>
                                 </tr>
                             </f:for>
