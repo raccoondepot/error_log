@@ -59,7 +59,7 @@ class LogWriter implements SingletonInterface
         }
         $errorValues = [
             'data' => empty($data) ? '' : serialize($data),
-            'page_uid' => isset($GLOBALS['TSFE']) ? (int) $GLOBALS['TSFE']->id : 0,
+            'page_uid' => isset($GLOBALS['TSFE']) ? (int) $GLOBALS['TSFE']->id ?? 0 : 0,
             'message' => $exception->getMessage() ?? '',
             'code' => $exception->getCode() ?? 0,
             'file' => $file ?? '',
@@ -68,10 +68,10 @@ class LogWriter implements SingletonInterface
             'browser_info' => $_SERVER['HTTP_USER_AGENT'] ?? '',
             'server_name' => $_SERVER['SERVER_NAME'] ?? '',
             'request_uri' => $_SERVER['REQUEST_URI'] ?? '',
-            'root_page_uid' => isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE']->rootLine[0]['uid'] : 0,
+            'root_page_uid' => isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE']->rootLine[0]['uid'] ?? 0 : 0,
             'crdate' => $GLOBALS['EXEC_TIME'] ?? time(),
             'IP' => (string) GeneralUtility::getIndpEnv('REMOTE_ADDR') ?? '',
-            'user' =>  isset($GLOBALS['BE_USER']) ? $GLOBALS['BE_USER']->user['username'] : '',
+            'user' =>  $backendUser ? $backendUser->user['username'] ?? '' : '',
             'user_id' => $userId ?? 0,
             'workspace' => $workspace ?? 0,
             'event_dispatched' => 0,
