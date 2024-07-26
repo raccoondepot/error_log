@@ -7,6 +7,7 @@ namespace RD\ErrorLog\Service;
 use RD\ErrorLog\Domain\Model\Error;
 use RD\ErrorLog\Domain\Event\ErrorEvent;
 use RD\ErrorLog\Domain\Repository\ErrorRepository;
+use RD\ErrorLog\Service\Database\ConnectionService;
 use TYPO3\CMS\Backend\FrontendBackendUserAuthentication;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -96,8 +97,65 @@ class LogWriter implements SingletonInterface
     public function writeError(\Throwable $exception, string $channel = self::CONTEXT_WEB): void
     {
         $errorValues = $this->collectInformationForEvent($exception, $channel);
-        $errorValues['uid'] = $this->write($errorValues);
-        $this->dispatchErrorEvent($errorValues);
+
+        // if TYPO3 is in completely booted state we can use TYPO3 API as normal
+        if (GeneralUtility::getContainer()->get('boot.state')->complete) {
+            $errorValues['uid'] = $this->write($errorValues);
+            $this->dispatchErrorEvent($errorValues);
+        } else {
+            // if error happen too early the only thing we can do is to report it directly into the database "as raw as possible"
+            try {
+                $this->writeAsRawAsPossible($errorValues);
+            } catch (\Throwable $e) {
+                // no need to catch it, just silently exit
+            }
+        }
+    }
+
+    /**
+     * Avoid ConnectionPool usage prior boot completion, as that is deprecated since #94979
+     * https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/11.4/Deprecation-94979-UsingCacheManagerOrDatabaseConnectionsDuringTYPO3Bootstrap.html
+     *
+     * @param array $errorValues
+     */
+    private function writeAsRawAsPossible(array $errorValues): void
+    {
+        $connection = (new ConnectionService())->getConnectionForTable('tx_errorlog_domain_model_error');
+        $errorValues = $this->prepareErrorValuesForRawQuery($errorValues);
+        $fields = implode(', ', array_keys($errorValues));
+        $values = implode(', ', array_values($errorValues));
+        $connection->executeStatement(
+            "INSERT INTO tx_errorlog_domain_model_error (" . $fields . ") VALUES (" . $values . ")"
+        );
+        $connection->close();
+    }
+
+    private function prepareErrorValuesForRawQuery(array $errorValues): array
+    {
+        // filter array only by allowed items
+        $errorValues = array_intersect_key($errorValues, array_flip([
+            'message',
+            'code',
+            'file',
+            'line',
+            'trace',
+            'browser_info',
+            'server_name',
+            'request_uri',
+            'root_page_uid',
+            'crdate',
+            'IP',
+            'user',
+            'user_id',
+            'workspace',
+            'event_dispatched',
+        ]));
+
+        foreach ($errorValues as $key => $value) {
+            $errorValues[$key] = '\'' . addslashes((string) $value) . '\'';
+        }
+
+        return $errorValues;
     }
 
     private function dispatchErrorEvent(array $errorValues): void
@@ -123,6 +181,7 @@ class LogWriter implements SingletonInterface
         $eventDispatcher->dispatch(new ErrorEvent($error, $isFirstOccurrence));
         $errorRepository->setDispatchedEventForErrors([$error->getUid()]);
     }
+
     private function write(array $errorValues): int
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tx_errorlog_domain_model_error');
