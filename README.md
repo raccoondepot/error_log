@@ -1,4 +1,4 @@
-[![ErrorLog](https://img.shields.io/badge/beta-v11.5.0-green?style=flat-square)](github.com/raccoondepot/error_log) [![TYPO3 11](https://img.shields.io/badge/TYPO3-11-orange.svg?style=flat-square)](https://get.typo3.org/version/11) [![License](https://img.shields.io/github/license/TYPO3-Documentation/tea?style=flat-square)]() [![RD](https://img.shields.io/badge/Raccoon-Depot-50b99a?style=flat-square)](https://raccoondepot.com)
+[![ErrorLog](https://img.shields.io/badge/beta-v11.5.1-green?style=flat-square)](github.com/raccoondepot/error_log/tree/11.5.1) [![TYPO3 11](https://img.shields.io/badge/TYPO3-11-orange.svg?style=flat-square)](https://get.typo3.org/version/11) [![License](https://img.shields.io/github/license/TYPO3-Documentation/tea?style=flat-square)]() [![RD](https://img.shields.io/badge/Raccoon-Depot-50b99a?style=flat-square)](https://raccoondepot.com)
 
 # TYPO3 Advanced Error Log
 
