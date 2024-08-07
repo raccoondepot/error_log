@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="panel-group panel-group-flat panel-group-scanner-extensions">
-        <f:for each="{errors}" as="error" iteration="iterator">
+        <f:for each="{paginator.paginatedItems}" as="error" iteration="iterator">
             <div class="panel panel-default panel-flat t3js-extensionScanner-extension t3js-extensionScanner-extension-{extension}"
                 data-extension="{extension}">
                 <div class="panel-heading">

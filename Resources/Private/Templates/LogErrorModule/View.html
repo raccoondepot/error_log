@@ -16,16 +16,16 @@
                         <td><strong>
                             <f:translate key="errors.view.message"/>
                         </strong></td>
-                        <td>{errors.0.message}</td>
+                        <td>{error.message}</td>
                     </tr>
-                    <f:if condition="{errors.0.code} != '0'">
+                    <f:if condition="{error.code} != '0'">
                         <tr>
                             <td><strong>
                                 <f:translate key="errors.view.code"/>
                             </strong></td>
-                            <td>{errors.0.code}
+                            <td>{error.code}
                                 <a style="color: blue" target="_blank"
-                                   href="https://docs.typo3.org/m/typo3/reference-exceptions/main/en-us/Exceptions/{errors.0.code}.html">Open
+                                   href="https://docs.typo3.org/m/typo3/reference-exceptions/main/en-us/Exceptions/{errors.code}.html">Open
                                     <f:translate key="errors.view.typo3_reference"/>
                                 </a>
                             </td>
@@ -35,7 +35,7 @@
                         <td><strong>
                             <f:translate key="errors.view.file_line"/>
                         </strong></td>
-                        <td>{errors.0.file}:{errors.0.line}</td>
+                        <td>{error.file}:{error.line}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -63,6 +63,20 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active show" id="DTM-errorlog-view-1">
                     <f:render partial="Trace" arguments="{_all}"/>
+                    <div>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <f:for each="{pagination.allPageNumbers}" as="page">
+                                    <li class="page-item">
+                                        <f:link.action arguments="{currentPage:page, uid:error.uid}" action="view"
+                                                       class="page-link {f:if(condition:'{currentPageNumber}=={page}',then:'active')}">
+                                            {page}
+                                        </f:link.action>
+                                    </li>
+                                </f:for>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="DTM-errorlog-view-2">
                     <div class="mt-3">
