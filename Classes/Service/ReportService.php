@@ -76,8 +76,9 @@ class ReportService
         $this->errorRepository->setDispatchedEventForErrors(array_column($errors, 'uid'));
     }
 
-    private function dispatchReport(Frequency $frequency)
+    private function dispatchReport(int $freq)
     {
+        $frequency = new Frequency($freq);
         $errors = $this->getErrors($frequency->seconds());
         $this->eventDispatcher->dispatch(new ReportEvent($frequency, $errors));
     }
