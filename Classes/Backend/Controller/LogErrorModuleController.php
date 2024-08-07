@@ -104,9 +104,13 @@ class LogErrorModuleController extends ActionController
         return $this->redirect('index');
     }
 
-    public function viewAction(int $uid)
+    public function viewAction(int $uid, $currentPage = 1, $limit = 10)
     {
         $errors = $this->errorRepository->getErrorsByUid($uid);
+
+        $paginator = new ArrayPaginator($errors, $currentPage, $limit);
+        $pagination = new SimplePagination($paginator);
+
         $settings = $this->settingsRepository->getSettings();
 
         if ($errors === null) {
@@ -136,8 +140,11 @@ class LogErrorModuleController extends ActionController
         $this->pageRenderer->loadJavaScriptModule('@rd/error-log/LogError.js');
 
         $viewVariables = [
+            'paginator' => $paginator,
+            'pagination' => $pagination,
+            'currentPage' => $currentPage,
             'settings' => $settings,
-            'errors' => $errors,
+            'error' => $errors[0],
             'AIPrompt' => $this->buildAIPrompt($errors[0]),
         ];
 
