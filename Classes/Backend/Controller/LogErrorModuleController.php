@@ -16,7 +16,6 @@ use RD\ErrorLog\Domain\Repository\BackendUserRepository;
 use RD\ErrorLog\Service\ConfigurationService;
 use TYPO3\CMS\Backend\Routing\UriBuilder as BackendUriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
-use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Belog\Domain\Repository\LogEntryRepository;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -104,7 +103,7 @@ class LogErrorModuleController extends ActionController
         return $this->redirect('index');
     }
 
-    public function viewAction(int $uid, $currentPage = 1, $limit = 10)
+    public function viewAction(int $uid, int $currentPage = 1, int $limit = 10)
     {
         $errors = $this->errorRepository->getErrorsByUid($uid);
 
