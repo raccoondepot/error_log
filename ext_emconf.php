@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'TYPO3 Advanced Error Log',
-    'description' => 'Error log extension for TYPO3 CMS',
+    'description' => 'This TYPO3 extension manages errors and exceptions, even before TYPO3 fully loads. It groups and displays errors in the backend, with detailed information and stack traces. Configurable notifications and reports via email and Slack keep you informed, while AI assistance aids in resolving issues.',
     'category' => 'extension',
     'constraints' => [
         'depends' => [

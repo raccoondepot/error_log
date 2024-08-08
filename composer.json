@@ -1,7 +1,7 @@
 {
     "name": "raccoondepot/error-log",
     "type": "typo3-cms-extension",
-    "description": "Error log extension for TYPO3 CMS",
+    "description": "This TYPO3 extension manages errors and exceptions, even before TYPO3 fully loads. It groups and displays errors in the backend, with detailed information and stack traces. Configurable notifications and reports via email and Slack keep you informed, while AI assistance aids in resolving issues.",
     "homepage": "https://github.com/raccoondepot/error_log/",
     "license": ["GPL-2.0-or-later"],
     "keywords": ["TYPO3 CMS"],
