@@ -1,9 +1,10 @@
-[![ErrorLog](https://img.shields.io/badge/beta-v11.5.1-green?style=flat-square)](github.com/raccoondepot/error_log/tree/11.5.1) [![TYPO3 11](https://img.shields.io/badge/TYPO3-11-orange.svg?style=flat-square)](https://get.typo3.org/version/11) [![License](https://img.shields.io/github/license/TYPO3-Documentation/tea?style=flat-square)]() [![RD](https://img.shields.io/badge/Raccoon-Depot-50b99a?style=flat-square)](https://raccoondepot.com)
+[![ErrorLog](https://img.shields.io/badge/beta-v11.5.2-green?style=flat-square)](github.com/raccoondepot/error_log/tree/11.5.2) [![TYPO3 11](https://img.shields.io/badge/TYPO3-11-orange.svg?style=flat-square)](https://get.typo3.org/version/11) [![License](https://img.shields.io/github/license/TYPO3-Documentation/tea?style=flat-square)]() [![RD](https://img.shields.io/badge/Raccoon-Depot-50b99a?style=flat-square)](https://raccoondepot.com)
 
 # TYPO3 Advanced Error Log
 
 ## Features
 - Handle TYPO3 errors and content object exceptions
+- Handle the errors occurred before TYPO3 is fully loaded
 - Display grouped errors in the TYPO3 backend module
 - Provide detailed information for each error occurrence, including stack traces
 - Configurable error notifications via email and Slack
@@ -98,8 +99,6 @@ You can easily add your own listener to any of those events and perform your own
 
 ## Future plans
 This extension is a work in progress and we have a lot of ideas to implement in future versions. Here are some of them:
-- Utilize modern features of PHP v8.1 and TYPO3 v12 (after TYPO3 v11 end of support);
-- Use message bus / message queue;
 - Handle errors from PHP error log file (either directly or with directly uploaded file);
 - Dynamic configuration for alternative notification sources;
 - Use retrieval augmented generation (RAG) for giving AI better TYPO3 context.
