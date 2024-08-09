@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RD\ErrorLog\Service;
 
+use LogicException;
 use RD\ErrorLog\Domain\Model\Error;
 use RD\ErrorLog\Domain\Event\ErrorEvent;
 use RD\ErrorLog\Domain\Repository\ErrorRepository;
@@ -97,9 +98,15 @@ class LogWriter implements SingletonInterface
     public function writeError(\Throwable $exception, string $channel = self::CONTEXT_WEB): void
     {
         $errorValues = $this->collectInformationForEvent($exception, $channel);
-
+        $container = null;
+        try {
+            $container = GeneralUtility::getContainer();
+        } catch (LogicException $exception) {
+            // do nothing
+        }
         // if TYPO3 is in completely booted state we can use TYPO3 API as normal
-        if (GeneralUtility::getContainer()->get('boot.state')->complete) {
+
+        if ($container !== null && GeneralUtility::getContainer()->get('boot.state')->complete) {
             $errorValues['uid'] = $this->write($errorValues);
             $this->dispatchErrorEvent($errorValues);
         } else {
