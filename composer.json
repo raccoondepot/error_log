@@ -8,7 +8,7 @@
     "require": {
         "typo3/cms-core": "^12.4",
         "typo3/cms-scheduler": "^12.4",
-        "symfony/http-client": "^5.4",
+        "symfony/http-client": "^6.0",
         "slack-php/slack-block-kit": "^2.1",
         "erusev/parsedown": "^1.7"
     },
