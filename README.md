@@ -1,6 +1,8 @@
-[![ErrorLog](https://img.shields.io/badge/beta-v11.5.2-green?style=flat-square)](github.com/raccoondepot/error_log/tree/11.5.2) [![TYPO3 11](https://img.shields.io/badge/TYPO3-11-orange.svg?style=flat-square)](https://get.typo3.org/version/11) [![License](https://img.shields.io/github/license/TYPO3-Documentation/tea?style=flat-square)]() [![RD](https://img.shields.io/badge/Raccoon-Depot-50b99a?style=flat-square)](https://raccoondepot.com)
+[![ErrorLog](https://img.shields.io/badge/beta-v11.5.4-green)](github.com/raccoondepot/error_log/tree/11.5.4) [![TYPO3 11](https://img.shields.io/badge/TYPO3-11-orange.svg)](https://get.typo3.org/version/11) [![License](https://img.shields.io/github/license/TYPO3-Documentation/tea)]() [![RD](https://img.shields.io/badge/Raccoon-Depot-50b99a)](https://raccoondepot.com) [![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua/)
 
 # TYPO3 Advanced Error Log
+
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-team.svg)](https://stand-with-ukraine.pp.ua)
 
 ## Features
 - Handle TYPO3 errors and content object exceptions
