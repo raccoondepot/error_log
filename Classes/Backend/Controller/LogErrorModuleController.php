@@ -118,7 +118,7 @@ class LogErrorModuleController extends ActionController
         $this->redirect('index');
     }
 
-    public function viewAction(int $uid, $currentPage = 1, $limit = 10)
+    public function viewAction(int $uid, int $currentPage = 1, int $limit = 10)
     {
         $errors = $this->errorRepository->getErrorsByUid($uid);
         $paginator = new ArrayPaginator($errors, $currentPage, $limit);
