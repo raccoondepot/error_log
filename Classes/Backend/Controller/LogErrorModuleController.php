@@ -16,6 +16,7 @@ use RD\ErrorLog\Domain\Repository\BackendUserRepository;
 use RD\ErrorLog\Service\ConfigurationService;
 use TYPO3\CMS\Backend\Routing\UriBuilder as BackendUriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Belog\Domain\Repository\LogEntryRepository;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -31,6 +32,8 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 class LogErrorModuleController extends ActionController
 {
+    protected ModuleTemplate $moduleTemplate;
+
     public function __construct(
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
         protected readonly LogEntryRepository $logEntryRepository,
@@ -43,7 +46,6 @@ class LogErrorModuleController extends ActionController
         protected readonly ConfigurationService $configurationService
     ) {
     }
-
 
     public function initializeAction(): void
     {
