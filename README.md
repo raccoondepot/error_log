@@ -1,4 +1,4 @@
-[![ErrorLog](https://img.shields.io/badge/beta-v12.4.6-green)](https://github.com/raccoondepot/error_log/tree/12.4.6) [![TYPO3 12](https://img.shields.io/badge/TYPO3-12-orange.svg)](https://get.typo3.org/version/12) [![License](https://img.shields.io/github/license/TYPO3-Documentation/tea)]() [![RD](https://img.shields.io/badge/Raccoon-Depot-50b99a)](https://raccoondepot.com) [![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua/)
+[![ErrorLog](https://img.shields.io/badge/beta-v12.4.7-green)](https://github.com/raccoondepot/error_log/tree/12.4.7) [![TYPO3 12](https://img.shields.io/badge/TYPO3-12-orange.svg)](https://get.typo3.org/version/12) [![License](https://img.shields.io/github/license/TYPO3-Documentation/tea)]() [![RD](https://img.shields.io/badge/Raccoon-Depot-50b99a)](https://raccoondepot.com) [![StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua/)
 
 # TYPO3 Advanced Error Log
 

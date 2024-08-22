@@ -91,7 +91,7 @@ class LogWriter implements SingletonInterface
             }
         }
 
-        return [$trace[0]['file'] ?? '', $trace[0]['line'], $trace];
+        return [$trace[0]['file'] ?? '', $trace[0]['line'] ?? 0, $trace];
     }
 
     public function writeError(\Throwable $exception, string $channel = self::CONTEXT_WEB): void

@@ -26,5 +26,5 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Serhii Voronov, Rostyslav Matviiv, Andrii Pozdieiev',
     'author_email' => 'info@raccoon-depot.com',
     'author_company' => 'Raccoon Depot',
-    'version' => '12.4.6',
+    'version' => '12.4.7',
 ];
