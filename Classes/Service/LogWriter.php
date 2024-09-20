@@ -97,12 +97,20 @@ class LogWriter implements SingletonInterface
     public function writeError(\Throwable $exception, string $channel = self::CONTEXT_WEB): void
     {
         $errorValues = $this->collectInformationForEvent($exception, $channel);
+        $useFallbackWrite = false;
 
-        // if TYPO3 is in completely booted state we can use TYPO3 API as normal
-        if (GeneralUtility::getContainer()->get('boot.state')->complete) {
-            $errorValues['uid'] = $this->write($errorValues);
-            $this->dispatchErrorEvent($errorValues);
-        } else {
+        try{
+            if (GeneralUtility::getContainer()->get('boot.state')->complete) {
+                $errorValues['uid'] = $this->write($errorValues);
+                $this->dispatchErrorEvent($errorValues);
+            } else {
+                $useFallbackWrite = true;
+            }
+        } catch (\LogicException $e) {
+            $useFallbackWrite = true;
+        }
+
+        if ($useFallbackWrite) {
             // if error happen too early the only thing we can do is to report it directly into the database "as raw as possible"
             try {
                 $this->writeAsRawAsPossible($errorValues);
